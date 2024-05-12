@@ -1,0 +1,52 @@
+<?php
+    $detail = $this->getData();
+
+    $tag_id      = $detail["tag_id"];
+    $tag_name    = ucname($detail["tag_name"]);
+    $description = $detail["tag_description"];
+
+    //// breadcrumb /////////////////////////
+
+    $arr_breadcrumb = [];
+
+    array_push($arr_breadcrumb,[
+        "name" => "Thể loại",
+        "item"  => "/admin/tag/list"
+    ]);
+
+    array_push($arr_breadcrumb,[
+        "name" => $tag_name
+    ]);
+
+    $HTML_breadcrumb = dashboard_bc($arr_breadcrumb);
+
+    ///////////////////////////////////////////
+
+    $page_title = $tag_name;
+
+    $this->page_title = "Thể loại : " . $page_title;
+
+    include(VIEW . "admin/header.phtml");
+?>
+    <div class="content">
+        <div class="row">
+            <?= $HTML_breadcrumb ?>
+            <div class="box-title">
+                <h2><span><?= $page_title ?></span> <i class="fa fa-angle-right"></i></h2>
+            </div>
+            <div class="tag-detail">
+                <div class="a-input-group">
+                    <label>Mô tả ngắn : </label>
+                    <textarea id="tag-description" name="tag-description"><?= $description ?></textarea>
+                </div>
+                <div class="a-input-group" align="right">
+                    <button class="edit-btn" id="update-description" data-tag-id="<?= $tag_id ?>">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php
+        include(VIEW . "admin/footer.phtml");
+    ?>
+</body>
+</html>

@@ -1,0 +1,803 @@
+.center-box {
+    width: 100%;
+    max-width: 300px;
+    position: absolute;
+    left: 50%;
+    top: 50%
+}
+
+.center-box.login {
+    margin-left: -150px;
+    margin-top: -132px;
+}
+
+.box{
+    background: #fff;
+    padding: 20px;
+    border-radius: 4px;
+    box-shadow: 1px 0px 7px #bdbdbd;
+}
+
+.login .inputGroup input[type="password"], 
+.login .inputGroup input[type="text"],
+.register .inputGroup input[type="password"],
+.register .inputGroup input[type="text"]{
+    background: #fff;
+    border-radius: 4px;
+    color: #333;
+    border: 1px solid #ddd;
+}
+
+.center-box.register {
+    margin-left: -150px;
+    margin-top: -198px;
+}
+
+.user-box-tite a {
+    font-size: 20px
+}
+
+.login button , .register button{
+    color: #fff;
+    padding: 9px 12px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 4px;
+    color: #fff;
+    transition: all .3s ease;
+    background: #f0ad4e;
+}
+
+.login button:hover , .register button:hover{
+    background:#337ab7;
+}
+.success {
+    float: right;
+    line-height: 24px;
+}
+
+.success img {
+    position: relative;
+    top: -3px;
+    left: -4px
+}
+
+.tl-d {
+    position: absolute;
+    width: 35px;
+    top: -9px;
+    left: -5px
+}
+
+.tr-d {
+    position: absolute;
+    width: 35px;
+    top: -9px;
+    right: -5px
+}
+
+.bl-d {
+    position: absolute;
+    width: 35px;
+    bottom: -9px;
+    left: -5px
+}
+
+.br-d {
+    position: absolute;
+    width: 35px;
+    bottom: -9px;
+    right: -5px
+}
+
+.user-box-body {
+    margin-top: 30px;
+}
+
+.inputBox {
+    position: relative;
+    margin-bottom: 30px
+}
+
+.inputBox:last-child {
+    margin-bottom: 0
+}
+
+.icon {
+    position: absolute;
+    width: 48px;
+    text-align: center;
+    height: 41px;
+    top: 10px;
+    color: #fff;
+    line-height: 41px
+}
+
+.user-box-footer {
+    margin-top: 30px;
+    text-align: right
+}
+
+.user-box-footer  a{
+    margin-right: 10px;
+}
+.user-box-footer  a:hover{
+    color: #337ab7
+}
+
+
+.captcha-type {
+    text-align: right
+}
+
+.captcha-type .captcha-img {
+    margin-right: 9px
+}
+
+.captcha-type .input-captcha {
+    width: 125px
+}
+
+.captcha-type .captcha-img,
+.captcha-type .input-captcha {
+    display: inline-block;
+    vertical-align: middle
+}
+
+.input-title {
+    margin-bottom: 7px;
+    font-size: 12px;
+    display: inline-block
+}
+
+.a {
+    top: -17px!important;
+    color: #ff4848!important;
+    font-size: 12px;
+    left: 35px
+}
+
+.sidebar-wrapper {
+    width: 240px;
+    height: 100%;
+    position: fixed;
+    overflow: hidden
+}
+
+.sidebar {
+    width: 260px;
+    padding: 0 30px;
+    height: 100%;
+    z-index: 999;
+    overflow: auto
+}
+
+.header {
+    margin-top: 20px
+}
+
+.logo {
+    z-index: 999;
+    position: relative
+}
+
+.logo a {
+    color: #b7b7b7;
+    margin: auto
+}
+
+.logo a img {
+    width: 100px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 8px
+}
+
+.logo .devilchan {
+    width: 100%;
+    display: inline-block;
+    font-size: 16px;
+    vertical-align: middle;
+    text-align: center
+}
+
+.nav {
+    width: 100%;
+    margin-top: 20px
+}
+
+.nav ul li {
+    width: 100%;
+    margin-top: 20px
+}
+
+.nav ul li:first-child {
+    margin-top: 0
+}
+
+.nav ul li img {
+    width: 16px;
+    display: inline-block;
+    vertical-align: bottom;
+    margin-right: 20px
+}
+
+.nav ul li a {
+    position: relative;
+    color: #cecece;
+    display: inline-block
+}
+
+.nav ul li a:hover {
+    color: #ff48a6
+}
+
+.nav ul li a:hover .underline {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1)
+}
+
+.nav ul li.act a {
+    color: #ff48a6
+}
+
+.nav ul li.act a .underline {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1)
+}
+
+.a.right {
+    right: 0!important
+}
+
+.content-wrapper {
+    position: relative;
+    margin-left: 240px;
+    max-width: 1680px
+}
+
+.content {
+    padding: 0 20px;
+    position: relative
+}
+
+.main-page {
+    width: 100%;
+    padding: 20px 0
+}
+
+.upload-layout {
+    width: 100%;
+    padding-top: 20px
+}
+
+.upload-group {
+    position: relative;
+    padding-bottom: 30px;
+    margin-bottom: 30px;
+    width: 950px;
+    padding: 20px;
+    background: #40253e;
+    border-radius: 2px
+}
+
+.upload-group input {
+    border: 1px solid #4a2c48;
+    -webkit-transition: all 2s ease;
+    -moz-transition: all .2s ease;
+    -ms-transition: all .2s ease;
+    -o-transition: all .2s ease;
+    transition: all .2s ease
+}
+
+.upload-group:last-child {
+    margin: 0
+}
+
+.upload-group .left-u,
+.upload-group .right-u {
+    float: left
+}
+
+.left-u {
+    width: 560px;
+    margin-right: 40px
+}
+
+.right-u {
+    height: 168px;
+    width: 310px;
+    text-align: center
+}
+
+.remove-u {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    font-weight: 700;
+    width: 24px
+}
+
+.remove-u img {
+    width: 100%;
+    vertical-align: bottom
+}
+
+.image-thumb img {
+    max-height: 168px;
+    max-width: 168px
+}
+
+.add-new-btn {
+    margin-top: 20px;
+    display: inline-block;
+    color: #cecece;
+    max-width: 950px;
+    width: 100%;
+}
+
+.add-new-btn a {
+    color: #cecece;
+    display: block;
+    padding: 8px;
+    background: #40253e;
+    border-radius: 2px;
+    text-align: center;
+}
+
+.add-new-btn a:hover{
+    background: #4a2b48;
+}
+
+.upload-btn {
+    margin-top: 20px
+}
+
+.upload-btn button {
+    padding:10px;
+    color: #fff;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.footer {
+    width: 100%;
+    margin-top: 10px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    text-align: center
+}
+
+.copyright {
+    line-height: 20px;
+    padding: 20px 30px
+}
+
+.user {
+    position: relative;
+    margin-bottom: 20px;
+    margin-top: 20px
+}
+
+.user a {
+    display: block;
+    color: #666
+}
+
+.user a:hover {
+    color: #ff48a6
+}
+
+.user span {
+    display: inline-block;
+    vertical-align: middle
+}
+
+.user img {
+    display: inline-block;
+    width: 60px;
+    vertical-align: middle;
+    float: left;
+    margin-right: 10px
+}
+
+.user-nickname {
+    color: #666;
+    font-weight: 700;
+    line-height: 18px
+}
+
+.user-level {
+    font-size: 12px;
+    margin-top: 5px;
+    color: red
+}
+
+.user-actions {
+    font-size: 12px;
+    color: #fff;
+    bottom: 0;
+    left: 70px;
+    margin-top: 4px
+}
+
+.user-actions a {
+    display: inline-block;
+    color: #666
+}
+
+.logout {
+    margin-left: 10px
+}
+
+.upload-box {
+    height: 200px;
+    border: 1px dashed #dadada;
+    width: 100%
+}
+
+.captcha {
+    float: left;
+    margin-top: 3px;
+    margin-right: 10px
+}
+
+.input_captcha {
+    width: 190px!important;
+    text-align: center
+}
+
+.overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    z-index: 999999999;
+    top: 0;
+    opacity: .8;
+    display: none
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse
+}
+
+th {
+    color: #ff80a5;
+    font-weight: 700
+}
+
+td,
+th {
+    padding: 20px 10px;
+    vertical-align: middle;
+    text-align: center
+}
+
+.collection .left{
+    max-width: 900px;
+    width: 100%;
+}
+
+.list-table {
+    padding-top: 76px;
+    border-spacing: 15px
+}
+
+.list-table tr {
+    border-bottom: 1px solid #733367;
+}
+
+.list-table tr td.button {
+    text-align: center
+}
+
+.list-table tr td.thumb-img img {
+    max-width: 120px;
+    max-height: 120px
+}
+
+.list-table tr td.nick-name {
+    font-weight: 700
+}
+
+.list-table img {
+    vertical-align: bottom;
+    border-radius: 2px
+}
+
+.list-table .delete img,
+.list-table .edit img {
+    width: 20px
+}
+
+.list-table table tr:last-child td {
+    border: none
+}
+
+.list-table table td {
+    height: 145px;
+}
+
+.btn-action {
+    text-align: right!important
+}
+
+@media only screen and (max-width:760px),
+(min-device-width:768px) and (max-device-width:1024px) {
+    table,
+    tbody,
+    td,
+    th,
+    thead,
+    tr {
+        display: block
+    }
+    thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px
+    }
+    tr {
+        border: 1px solid #ccc
+    }
+    td {
+        border: none;
+        border-bottom: 1px solid #eee;
+        position: relative;
+        padding-left: 50%
+    }
+    td:before {
+        position: absolute;
+        top: 6px;
+        left: 6px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap
+    }
+    td:nth-of-type(1):before {
+        content: "First Name"
+    }
+    td:nth-of-type(2):before {
+        content: "Last Name"
+    }
+    td:nth-of-type(3):before {
+        content: "Job Title"
+    }
+    td:nth-of-type(4):before {
+        content: "Favorite Color"
+    }
+    td:nth-of-type(5):before {
+        content: "Wars of Trek?"
+    }
+    td:nth-of-type(6):before {
+        content: "Secret Alias"
+    }
+    td:nth-of-type(7):before {
+        content: "Date of Birth"
+    }
+    td:nth-of-type(8):before {
+        content: "Dream Vacation City"
+    }
+    td:nth-of-type(9):before {
+        content: "GPA"
+    }
+    td:nth-of-type(10):before {
+        content: "Arbitrary Data"
+    }
+}
+
+.frame {
+    position: relative
+}
+
+.frame input,
+.frame textarea {
+    border-color: #c82fab!important;
+    background: #391237!important;
+    border-radius: none;
+    border: 1px solid #c82fab!important
+}
+
+.frame .corner {
+    position: absolute;
+    z-index: 999
+}
+
+.frame .corner img {
+    width: 35px;
+    vertical-align: bottom
+}
+
+.frame .corner.top {
+    top: -9px
+}
+
+.frame .corner.bottom {
+    bottom: -9px
+}
+
+.frame .corner.bottom.left,
+.frame .corner.top.left {
+    left: -5px
+}
+
+.frame .corner.bottom.right,
+.frame .corner.top.right {
+    right: -5px
+}
+
+.img-preview {
+    float: left;
+    width: 168px
+}
+
+.img-mt {
+    float: left;
+    margin-left: 10px;
+    width: 75px
+}
+
+.thump a {
+    color: #fff;
+    display: block;
+    background: #4a2c48;
+    padding: 5px 10px;
+    margin-bottom: 10px;
+    border-radius: 2px
+}
+
+.resolution {
+    font-weight: 700
+}
+
+a.act {
+    background: #e233c1
+}
+
+.check-box {
+    display: inline-block
+}
+
+.check-box input {
+    margin-right: 10px
+}
+
+.tool {
+    width: calc(100% - 240px);
+    position: fixed;
+    padding: 20px 0;
+    text-align: center;
+    padding: 7px 0;
+    background: #3c223a;
+    box-shadow: 10px -3px 10px #2b1a2a;
+    z-index: 9999;
+}
+
+.tool .pagination-box {
+    margin-top: 0
+}
+
+.tool .pagination-box .jump,
+.tool .pagination-box .pagination {
+    display: inline-block;
+    vertical-align: middle
+}
+
+.tool .pagination-box .jump {
+    margin-top: 0;
+    margin-left: 20px
+}
+
+.search-list {
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 20px
+}
+
+.search-list input {
+    height: 36px;
+    padding: 0 20px;
+    width: 200px;
+    background: #5b395a;
+    border-radius: 2px
+}
+
+#edit-overlay {
+    position: fixed;
+    z-index: 99999999;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(13, 12, 13, .69);
+    display: none
+}
+
+#edit-form {
+    position: fixed;
+    background: #372036;
+    z-index: 9999999;
+    border-radius: 2px;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%)
+}
+
+.btn-update {
+    position: absolute;
+    right: 30px;
+    bottom: 30px;
+    z-index: 99999
+}
+
+.btn-update a {
+    display: block;
+    padding: 7px;
+    color: #fff;
+    border-radius: 2px
+}
+
+.page-title{
+    margin-bottom: 30px;
+    font-size: 18px;
+    border-bottom: 1px solid #733367;
+    padding: ;
+    padding-bottom: 10px;
+    max-width: 200px;
+}
+
+.page-title img{
+    width: 20px;
+    margin-right: 10px;
+    vertical-align: middle;
+    position: relative;
+    top: -2px;
+}
+
+.add-new-btn a{
+    -webkit-transition: all 2s ease;
+    -moz-transition: all .2s ease;
+    -ms-transition: all .2s ease;
+    -o-transition: all .2s ease;
+    transition: all .2s ease
+}
+
+.album-item{
+    position: relative;
+    float: left;
+    margin-right: 20px;
+}
+
+.album-item .img-holder{
+    max-width: 200px;
+    max-height: 200px;
+}
+
+.album-item .img-holder a{
+    text-align: center;
+    display: block;
+    height: 200px;
+    width: 200px;
+    border: 1px solid #800067;
+}
+
+.album-item .img-holder img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.album-item .remove{
+    position: absolute;
+    background: #ff2020;
+    padding: 5px 10px;
+    top: 0;
+    right: 0;
+    color: #fff;
+}

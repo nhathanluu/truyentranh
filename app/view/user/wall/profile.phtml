@@ -1,0 +1,62 @@
+<?php
+
+    $d = $this->getData();
+
+    $gender   = $d["gender"];
+    $account  = $d["account"];
+    $nickname = $d["nickname"];
+    $avatar   = $d["avatar"] != '' ?  $d["avatar"] : '/public/icons/default.jpg';
+
+    $sl_1 = '';
+    $sl_2 = '';
+
+    if($gender == 'f'){
+        
+        $sl_1 = 'selected';
+
+    }elseif($gender == 't'){
+
+        $sl_2 = 'selected'; 
+    }
+    
+    /////////////////////////////////////////////////////////
+
+    $this->page_title = "Profile - " . SITE_NAME;
+    include VIEW . "user/wall/header.phtml";
+?>
+    <div class="content">
+        <div class="row content-inner clearfix">
+            <?php include  VIEW . "user/wall/sidebar.phtml" ?>
+            <div class="user-form">
+                <div class="box-title">
+                    <h2>Thông tin cá nhân <i class="fa fa-angle-right"></i></h2>
+                </div>
+                <div class="u-input-group">
+                    <img src="<?= $avatar ?>">
+                    <input type="file" name="file" id="avatar">
+                </div>
+                <div class="u-input-group">
+                    <label>Tài khoản : </label>
+                    <input disabled="disabled" id="username" lass="input-disabled" type="text" name="username" value="<?= $account ?>">
+                </div>
+                <div class="u-input-group">
+                    <label>Biệt danh : </label>
+                    <input type="text" id="nickname" name="nickname" value="<?= $nickname ?>">
+                </div>
+                <div class="u-input-group">
+                    <label>Giới tính : </label>
+                    <select id="gender">
+                        <option value="">Bê đê chúa</option>
+                        <option <?= $sl_1 ?> value="0">Male</option>
+                        <option <?= $sl_2 ?> value="1">Female</option>
+                    </select>
+                </div>
+                <div class="u-input-group u-btn">
+                    <button class="btn" id="update-profile">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php
+    include VIEW . "main/footer.phtml";
+?>

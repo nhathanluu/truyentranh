@@ -1,0 +1,123 @@
+<?php
+
+    $d = $this->getData();
+    $favorites = $d["favorites"];
+    $cmts      = $d["cmts"];
+    $info      = $d["info"];
+
+    $gender = $info["gender"];
+    $my_gender = "Unknow";
+
+    if($gender == 'f'){
+        
+        $my_gender = "Male";
+
+    }elseif($gender == 't'){
+
+        $my_gender = "Female";
+    }
+
+    /////////////////////////////////////////////////////////
+
+    $this->page_title = "Bảng điều khiển - " . SITE_NAME;
+    include VIEW . "user/wall/header.phtml";
+?>
+    <div class="content">
+        <div class="row content-inner clearfix">
+            <?php include  VIEW . "user/wall/sidebar.phtml" ?>
+            <div class="user-form">
+                <div class="box-title">
+                    <h2 class=>Bảng điều khiển <i class="fa fa-angle-right"></i></h2>
+                </div>
+                <div class="d-profile">
+                    <div class="d-title clearfix">
+                        <h2>Thông tin tài khoản</h2>
+                        <a href="/member/profile" title="Edit profile">Xem tất cả <i class="fa fa-angle-right"></i><i class="fa fa-angle-right"></i><i class="fa fa-angle-right"></i></a>
+                    </div>
+                    <p>Username : <?= $info["account"] ?></p>
+                    <p>Nickname : <?= $info["nickname"] ?></p>
+                    <p>Gender : <?= $my_gender ?></p>
+                </div>
+                <div class="d-favorites">
+                    <div class="d-title clearfix">
+                        <h2>Truyện đã thích</h2>
+                        <a href="/member/favorites" title="See all favorites">Xem tất cả <i class="fa fa-angle-right"></i><i class="fa fa-angle-right"></i><i class="fa fa-angle-right"></i></a>
+                    </div>
+                    <?php
+
+                        if($favorites):
+
+                            foreach ($favorites as $favorite) :
+
+                                $manga_id = $favorite["manga_id"];
+                                $manga_name = $favorite["manga_name"];
+
+                                $cover_img = SITE_URL . "img/{$manga_id}/{$favorite['manga_cover_img']}";
+                                $manga_url = "/manga/" . url_name_replace($manga_name) . "-" . $manga_id;
+
+                    ?>
+                    <div class="u-fav-item clearfix">
+                        <div class="u-img-holder">
+                            <a href="<?= $manga_url ?>" title="<?= $manga_name ?>"><img src="<?= $cover_img ?>"></a>
+                        </div>
+                        <div class="u-manga-title"><a title="<?= $manga_name ?>" href="<?= $manga_url ?>"><?= $manga_name ?></a></div>
+                        <div class="u-fav-btn">
+                            <a href="javascript:void(0)" data-manga-id="<?= $manga_id ?>" title="Unfavorite">
+                                <img src="<?= TH_PUBLIC . "/icons/x.svg" ?>"><span>Unfavorite</span>
+                            </a>
+                        </div>
+                    </div>
+                    <?php 
+                            endforeach;
+
+                        else:
+
+                            echo "Chưa thích truyện nào. ";
+
+                        endif
+                    ?>
+                </div>
+                <div class="d-comments">
+                    <div class="d-title clearfix">
+                        <h2>Bình luận</h2>
+                        <a href="/member/comments" title="See all comments">Xem tất cả <i class="fa fa-angle-right"></i><i class="fa fa-angle-right"></i><i class="fa fa-angle-right"></i></a>
+                    </div>
+                    <?php
+
+                        if($cmts):
+
+                            foreach ($cmts as $cmt) :
+
+                                $manga_id = $cmt["manga_id"];
+                                $manga_name = $cmt["manga_name"];
+
+                                $cover_img = SITE_URL . "img/{$manga_id}/{$cmt['manga_cover_img']}";
+                                $manga_url = "/manga/" . url_name_replace($manga_name) . "-" . $manga_id;
+                                $date_cmt  = $cmt["cmt_date_published"];
+
+                                $cmt_content = $cmt["cmt_content"];
+                    ?>
+                    <div class="u-cmt-item clearfix">
+                        <div class="u-img-holder">
+                            <a href="<?= $manga_url ?>" title="<?= $manga_name ?>"><img src="<?= $cover_img ?>"></a>
+                        </div>
+                        <div class="u-manga-title"><a title="<?= $manga_name ?>" href="<?= $manga_url ?>"><?= $manga_name ?></a></div>
+                        <div class="u-cmt-content"><?= $cmt_content ?></div>
+                        <div class="u-cmt-date"><?= time_elapsed_string($date_cmt) ?></div>
+                    </div>
+                    <?php 
+                            endforeach;
+
+                        else:
+
+                            echo "Bạn chưa có bình luận nào";
+
+                        endif
+                    ?>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php
+    include VIEW . "main/footer.phtml";
+?>

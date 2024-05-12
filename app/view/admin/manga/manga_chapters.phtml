@@ -1,0 +1,72 @@
+<?php
+
+    $data = $this->getData();
+
+    $m = $data["manga"];
+    $c = $data["chapters"];
+
+    $manga_name = $m["manga_name"];
+    $manga_id   = $m["manga_id"]; 
+
+    ////////////////////////////////////
+
+    $arr_breadcrumb = [];
+
+    array_push($arr_breadcrumb,[
+        "name" => "Danh sách truyện",
+        "item" => "/admin/manga/list"
+    ]);
+
+    array_push($arr_breadcrumb,[
+        "name" => $manga_name,
+        "item" => "/admin/manga/" . $manga_id  
+    ]);
+
+    array_push($arr_breadcrumb,[
+        "name" => "Chapters"
+    ]);
+
+    $HTML_breadcrumb = dashboard_bc($arr_breadcrumb);
+
+$this->page_script = <<<HTML
+<script>
+var manga_id = {$manga_id};
+</script>
+HTML;
+
+    $this->page_title = $manga_name . " - Chapters";
+    include(VIEW . "admin/header.phtml");
+?>
+    <div class="content">
+        <div class="row">
+            <div class="chapters">
+                <?=  $HTML_breadcrumb ?>
+                <div class="box-title">
+                    <h1><span>Danh sách chương truyện</span> - <span style="color: #333"><?= $manga_name ?></span></h1>
+                </div>
+                <div class="add-new-chapter">
+                    <a href="/admin/chapter/add/<?= $manga_id ?>" title="Thêm chương mới" class="edit-btn">Thêm chương mới</a>
+                </div> 
+                <?php
+                    foreach ($c as $chapter){
+
+                        $chapter_id     = $chapter["chapter_id"];
+                        $chapter_title  = $chapter["chapter_title"] != "" ? ( " : " . replace_quot($chapter["chapter_title"]) ) : "";
+                        $chapter_number = $chapter["chapter_number"];
+
+echo <<<HTML
+<div class="chapter-item">
+<a class="chapter-title" href="/admin/chapter/detail/{$chapter_id}" title="Đi đến chapter {$chapter_number}">Chapter {$chapter_number}{$chapter_title}</a>
+<a href="javascript:void(0)" class="delete-chapter" title="Delete" data-delete-id="{$chapter_id}" >
+<img src="/public/icons/x.svg" alt="Delete"><span>Xóa</span>
+</a>
+</div>
+HTML;
+                    }
+                ?>
+            </div>
+        </div>
+    </div>
+    <?php include(VIEW . "admin/footer.phtml") ?>
+</body>
+</html>

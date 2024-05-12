@@ -1,0 +1,35 @@
+<?php
+
+
+    $arr_breadcrumb = [];
+
+    array_push($arr_breadcrumb,[
+        "name" => "Lịch sử đọc truyện"
+    ]);
+
+    $HTML_breadcrumb = html::breadcrumb($arr_breadcrumb); 
+
+    $page_title = "Truyện mới cập nhật";
+
+    $description = "Lịch sử đọc truyện - Đọc truyện tranh online, truyện manga cập nhật liên tục mỗi ngày vơi hình ảnh chất lượng cao.";
+
+    $this->description = $description;
+    $this->page_title = $page_title . " - " . SITE_NAME;
+
+    include VIEW . "main/header.phtml";
+?>
+    <div class="content">
+        <div class="row content-inner clearfix">
+            <?= $HTML_breadcrumb ?>
+            <div class="box-title">
+                <h1>Lịch sử đọc truyện <i class="fa fa-angle-right"></i></h1>
+            </div>
+            <div class="pda clearfix manga-list2">
+            </div>
+        </div>  
+    </div>
+<?php
+    include VIEW . "main/footer.phtml";
+?>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<?php
+	http_response_code(404);
+?>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+
+	<title>Page not found - 404 | MangaLoli.com</title>
+
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" href="<?php echo SITE_URL; ?>public/icons/small-devilchan.png"  sizes="16x16">
+	<link rel="stylesheet" type="text/css" href="<?php echo SITE_URL; ?>public/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="<?php echo SITE_URL; ?>public/css/style.css">
+</head>
+<body>
+	<div class="page-404">
+		<div class="pattern">
+			<div class="center-404-text"><span class="fc1-v2">404</span> <span class="fc2-v2">not</span> <span class="fc3-v2">found</span></div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		window.addEventListener("click",function(){
+
+			window.location.href = "<?php echo SITE_URL; ?>";
+		});
+	</script>
+</body>
+</html>

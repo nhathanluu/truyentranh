@@ -1,0 +1,103 @@
+<?php
+    $d = $this->getData();
+
+    $cmts = @$d["cmts"];
+
+    $page = @$d["page"];
+    $u    = $d["user"];
+
+    $d["pagi"]["url"] = "/admin/member/comments/" . $u["user_id"];
+
+    $account = $u["account"];
+
+    /////////////////////////////////////
+
+    $arr_breadcrumb = [];
+
+    array_push($arr_breadcrumb,[
+        "name" => "Member list",
+        "item" => "/admin/member/list"
+    ]);
+
+    array_push($arr_breadcrumb,[
+        "name" => ucfirst($u["account"]),
+        "item" => ""
+    ]);
+
+    array_push($arr_breadcrumb,[
+        "name" => "Bình luận"
+    ]);
+
+
+
+    $HTML_breadcrumb = dashboard_bc($arr_breadcrumb);
+
+    /////////////////////////////////////
+
+    $page_title = $account . " - Bình luận";
+
+    if($page > 1){
+        
+        $page_title .= " | Trang " . $page;
+    }
+
+    $this->page_title = $page_title;
+
+    include(VIEW . "admin/header.phtml");
+?>
+    <div class="content">
+        <div class="u-cmts">
+            <div class="row">
+                <?= $HTML_breadcrumb ?>
+                <div class="box-title">
+                    <h1><?= $page_title ?> </h1>
+                </div>
+                <?php
+
+                    if($cmts):
+
+                        echo "<div>";
+
+                        foreach ($cmts as $cmt) :
+
+                            $manga_id = $cmt["manga_id"];
+                            $manga_name = $cmt["manga_name"];
+                            $cmt_id = $cmt["cmt_id"];
+
+                            $cover_img = SITE_URL . "img/{$manga_id}/{$cmt['manga_cover_img']}";
+                            $manga_url = "/manga/" . url_name_replace($manga_name) . "-" . $manga_id;
+                            $date_cmt  = $cmt["cmt_date_published"];
+
+                            $cmt_content = $cmt["cmt_content"];
+                ?>
+                <div class="u-cmt-item clearfix">
+                    <div class="u-img-holder">
+                        <a href="<?= $manga_url ?>" title="<?= $manga_name ?>"><img src="<?= $cover_img ?>"></a>
+                    </div>
+                    <div class="u-manga-title">
+                        <a title="<?= $manga_name ?>" href="<?= $manga_url ?>"><?= $manga_name ?></a>
+                        <a class="delete-cmt" href="javascript:void(0)" data-cmt-id="<?= $cmt_id ?> "><i class="fa f-remove fa-remove"></i><span> Xóa</span></a>
+                    </div>
+                    <div class="u-cmt-content"><?= $cmt_content ?></div>
+                    <div class="u-cmt-date"><?= time_elapsed_string($date_cmt) ?></div>
+                </div>
+                <?php 
+                        endforeach;
+                        echo "</div>";
+                        echo html::pagi(html::pagi_render($d["pagi"]));
+
+                    else:
+
+                        echo "Thành viên này chưa có bình nào cả";
+
+                    endif
+                ?>
+
+            </div>
+        </div>
+    </div>
+    <?php
+        include(VIEW . "admin/footer.phtml");
+    ?>
+</body>
+</html>

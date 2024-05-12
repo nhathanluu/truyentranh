@@ -1,0 +1,54 @@
+<?php
+
+	$message = $this->getData()["message"];
+
+    $this->page_title = "Đăng ký - " . SITE_NAME;
+    include VIEW . "user/account/header.phtml";
+?>
+	<div class="devilchan">
+		<div class="center-box register">
+			<div class="box">
+				<form action="/dang-ky" method="POST">
+					<div class="user-box-tite">
+						<a href="<?php echo SITE_URL; ?>"><?= SITE_NAME ?></a>
+                        <?php  if (isset($message["ok"])){ echo '<span class="success fc3-v2">Thành công!!</span>'; }?>
+	                </div>
+					<div class="user-box-body">
+					    <div class="inputBox inputGroup">
+					    	<?php  if (isset($message["user"])){ echo '<label class="a">' . $message["user"] . '</label>'; }?>
+					    	
+                                <input type="text" name="username" placeholder="Tên tài khoản">
+                           
+                        </div>
+						<div class="inputBox inputGroup">
+							<?php  if (isset($message["password"])){ echo '<label class="a">' . $message["password"] . '</label>'; }?>
+							
+                                <input type="password" name="password" placeholder="Mật khẩu">
+                            
+						</div>
+						<div class="inputBox inputGroup">
+							<?php  if (isset($message["repeat-password"])){ echo '<label class="a">' . $message["repeat-password"] . '</label>'; }?>
+							
+                                <input type="password" name="repeat-password" placeholder="Nhập lại mật khẩu">
+                           
+						</div>
+                        <div class="captcha-type">
+                            <img src="<?php echo SITE_URL; ?>captcha.php" class="captcha-img">
+                            <div class="inputBox inputGroup input-captcha">
+                                <?php  if (isset($message["captcha"])){ echo '<label class="a">' . $message["captcha"] . '</label>'; }?>
+                                
+                                    <input type="text" name="captcha" placeholder="Captcha">
+                                
+                            </div>
+                        </div>
+					</div>
+					<div class="user-box-footer clearfix">
+						<a href="/dang-nhap" title="Đăng nhập">Đăng nhập</a>
+						<button type="submit" name="ok">Đăng ký</button>
+					</div>
+				</form>
+			</div>	
+		</div>
+	</div>
+</body>
+</html>

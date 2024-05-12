@@ -1,0 +1,56 @@
+<?php
+    $imgs = $this->getData();
+
+    //// breadcrumb /////////////////////////
+
+    $arr_breadcrumb = [];
+
+    array_push($arr_breadcrumb,[
+        "name" => "Images"
+    ]);
+
+    $HTML_breadcrumb = dashboard_bc($arr_breadcrumb);
+
+    ///////////////////////////////////////////
+
+    $this->page_title = "Images";
+
+    include(VIEW . "admin/header.phtml");
+?>
+    <div class="content">
+        <div class="row">
+            <div class="manga-detail">
+                <?= $HTML_breadcrumb ?>
+                <div class="box-title">
+                    <h2 class="fc1-v2">Images</h2>
+                </div>
+                <div class="a-input-group">
+                    <label>Url : </label>
+                    <input type="text" id="url" name="url">
+                </div>
+                <div class="a-input-group" align="right">
+                    <button class="edit-btn" id="send">Submit</button>
+                </div>
+                <div class="imgs">
+                    <?php 
+                        foreach ($imgs as $img){
+
+                            $src = SITE_URL . "/" .  $img["img_path"];
+                            $pat_id = $img["pat_id"];
+echo <<<HTML
+<div class="d-img-holder" style="width: 200px;display: inline-block;position: relative;">
+<img src="$src" style="width: 200px;">
+<div data-id="{$pat_id}"  style="padding: 10px;position:absolute;top: 0;left: 0;background: red" class="delete">Delete</div>
+</div>
+HTML;
+                        }
+                    ?>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php
+        include(VIEW . "admin/footer.phtml");
+    ?>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<?php
+    $data = $this->getData();
+
+    $manga = $data["reports"];
+    $pagi    = $data["pagi"];
+    $pagi["url"] = "/admin/report";
+    $page  = $data["page"];
+
+    //// breadcrumb /////////////////////////
+
+    $arr_breadcrumb = [];
+
+    array_push($arr_breadcrumb,[
+        "name" => "Báo lỗi"
+    ]);
+
+    $HTML_breadcrumb = dashboard_bc($arr_breadcrumb);
+
+    ///////////////////////////////////////////
+
+    $page_title = "Báo lỗi";
+
+    if($page > 1){
+        
+        $page_title .= " | Trang " . $page;
+    }
+
+    $types = [
+        "Ảnh trùng",
+        "Ảnh bị hỏng",
+        "Sai truyện",
+        "Khác"
+    ];
+
+    $this->page_title = $page_title;
+
+    include(VIEW . "admin/header.phtml");
+?>
+    <div class="content">
+        <div class="row">
+            <?= $HTML_breadcrumb ?>
+            <div class="box-title">
+                <h2><span><?= $page_title ?></span> <i class="fa fa-angle-right"></i></h2>
+            </div>
+            <div class="reports">
+                <?php 
+                if($manga) :
+
+                    foreach ($manga as $m) :
+                        
+                        $manga_id   = $m["manga_id"];
+                        $manga_name = $m["manga_name"];
+                        $cover_img  = SITE_URL . "img/" . $manga_id . "/" .$m["manga_cover_img"];
+                        $link_manga = SITE_URL . "manga/" . url_name_replace($manga_name) . "-{$manga_id}";
+
+
+                        $r_type          = $m["r_type"];
+                        $r_content       = $m["r_content"];
+                        $r_creation_date = $m["r_creation_date"];
+                        $r_id            = $m["r_id"];
+
+                        $chapter_id  = $m["chapter_id"];
+                        $chapter_number = $m["chapter_number"];
+                        $link_chapter = "/manga/" . url_name_replace($manga_name) . "-{$manga_id}/chapter-{$chapter_number}";
+
+                        $link_edit = "/admin/chapter/detail/{$chapter_id}";
+
+                ?>
+                <div class="rp-item">
+                    <div class="clearfix">
+                        <div class="col">
+                            <div class="rp-img-holder">
+                                <img src="<?= $cover_img ?>">
+                            </div>
+                            <div class="rp-title"><a href="<?= $link_manga ?>" title="<?= $manga_name ?>" target="_blank"><?= $manga_name ?></a></div>
+                            <div class="rp-time"><?= time_elapsed_string($r_creation_date) ?></div>
+                        </div>
+                        <div class="col rp-chapter">
+                            <span>Chapter <?= $chapter_number ?></span>
+                            <a href="<?= $link_chapter ?>" title="Đến chapter <?= $chapter_number ?>" target="_blank">
+                                <i class="fa f-ex-link fa-external-link" ></i>
+                            </a>
+                            <a href="<?= $link_edit ?>" title="Sửa chapter <?= $chapter_number ?>" target="_blank">
+                                <i class="fa f-edit fa-edit"></i>
+                            </a>        
+                        </div>
+                        <div class="col"><?= $types[$r_type] ?></div>
+                        <div class="col rp-content"><?= $r_content ?></div>
+                        <div class="col action">
+                            <a href="javascript:void(0)" class="del-rp" data-r-id="<?= $r_id ?>"><i class="fa f-remove fa-remove"></i><span> Xóa</span></a>
+                        </div>
+                    </div>
+                </div>
+                <?php
+                    endforeach;
+
+                    echo html::pagi(html::pagi_render($pagi));
+
+                else : 
+
+                    echo "Hiện tại chưa có báo cáo nào";
+                endif;
+                ?>
+            </div>
+        </div>
+    </div>
+    <?php
+        include(VIEW . "admin/footer.phtml");
+    ?>
+</body>
+</html>

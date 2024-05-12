@@ -1,0 +1,72 @@
+<?php
+    $d = $this->getData();
+
+    $congai  = $d["congai"];
+    $contrai = $d["contrai"];
+
+    $value_congai = "";
+
+    if($congai){
+
+        foreach ($congai as $cg){
+            $value_congai .= $cg["tag_name"] .",";
+        }
+
+        $value_congai = trim($value_congai,",");
+    }
+    
+    ///////////////////////////////////////
+
+    $value_trai = "";
+
+    if($contrai){
+
+        foreach ($contrai as $ct){
+            $value_trai .= $ct["tag_name"] .",";
+        }
+
+        $value_trai = trim($value_trai,",");
+    }
+
+    $arr_breadcrumb = [];
+
+    array_push($arr_breadcrumb,[
+        "name" => "Cài đặt chung"
+    ]);
+
+    $HTML_breadcrumb = dashboard_bc($arr_breadcrumb);
+
+    ///////////////////////////////////////////
+
+    $this->page_title = "Cài đặt chung";
+
+    include(VIEW . "admin/header.phtml");
+?>
+    <div class="content">
+        <div class="row">
+            <?= $HTML_breadcrumb ?>
+            <div class="box-title">
+                <h1><span>Cài đặt chung</span> <i class="fa fa-angle-right"></i></h1>
+            </div>
+            <div class="a-input-group">
+                <label>Truyện con gái : </label>
+                <div class="manga-tags">
+                    <input id="con-trai" type="hidden" name="con-gai" value="<?= $value_congai ?>" data-cate="1">
+                </div>
+            </div>
+            <div class="a-input-group">
+                <label>Truyện con trai : </label>
+                <div class="manga-tags">
+                    <input id="con-gai" type="hidden"  value="<?= $value_trai ?>" name="con-trai" data-cate="2">
+                </div>
+            </div>
+            <div class="a-input-group">
+                <a href="javascript:void(0)" id="clean-cache" class="edit-btn">Xóa cache</a>
+            </div>
+        </div>
+    </div>
+    <?php
+        include(VIEW . "admin/footer.phtml");
+    ?>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<?php
+
+
+    //// breadcrumb /////////////////////////
+
+    $arr_breadcrumb = [];
+
+    array_push($arr_breadcrumb,[
+        "name" => "Thêm truyện"
+    ]);
+
+    $HTML_breadcrumb = dashboard_bc($arr_breadcrumb);
+
+    ///////////////////////////////////////////
+
+    $this->page_title = "Thêm truyện";
+    $this->more_script = '<script src="/public/js/tinymce/tinymce.js"></script>';
+
+    include(VIEW . "admin/header.phtml");
+?>
+    <div class="content">
+        <div class="row">
+            <div class="manga-detail">
+                <?= $HTML_breadcrumb ?>
+                <div class="box-title">
+                    <h2><span>Thêm truyện</span> <i class="fa fa-angle-right"></i></h2>
+                </div>
+                <div class="col-left">
+                    <div class="cover-img">
+                        <img src="">
+                    </div>
+                    <div class="a-input-group">
+                        <input type="file" name="file" id="cover-img">
+                    </div>
+                </div>
+                <div class="col-right">
+                    <div class="a-input-group">
+                        <label>Tác giả : </label>
+                        <div class="manga-authors">
+                            <input id="manga_authors" type="hidden" name="manga-manga_authors" value="<?= @$authors_str ?>">
+                        </div>
+                    </div>
+                    <div class="a-input-group">
+                        <label>Thể loại : </label>
+                        <div class="manga-tags">
+                            <input id="manga_tags" type="hidden" name="manga-tags">
+                        </div>
+                    </div>
+                    <div class="a-input-group">
+                        <label>Tên truyện : </label>
+                        <input type="text" id="manga-name" name="manga-name">
+                    </div>
+                    <div class="a-input-group">
+                        <label>Status : </label>
+                        <select id="status">
+                            <option value="0">Đang tiến hành</option>
+                            <option value="1">Đã hoàn thành</option>
+                        </select>
+                    </div>
+                    <div class="a-input-group">
+                        <label>Tình trạng : </label>
+                        <textarea id="manga-others-name" name="manga-others-name"></textarea>
+                    </div>
+                    <div class="a-input-group">
+                        <label>Giới thiệu ngắn : </label>
+                        <textarea id="manga-description" name="manga-description"></textarea>
+                    </div>
+                    <div class="a-input-group" style="text-align: right;">
+                        <button class="edit-btn" id="update_description">Thêm truyện</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php
+        include(VIEW . "admin/footer.phtml");
+    ?>
+</body>
+</html>

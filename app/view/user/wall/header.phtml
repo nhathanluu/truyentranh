@@ -1,0 +1,11 @@
+<?php
+	include VIEW . "main/header.phtml";
+
+	if(@$this->is_banned){
+?>
+	<div class="is-banned bgr">
+		<div class="row">Tài khoản đã bị khóa!!</div>
+	</div>
+<?php
+	}
+?>

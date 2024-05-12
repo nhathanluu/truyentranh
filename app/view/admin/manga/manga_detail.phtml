@@ -1,0 +1,147 @@
+<?php
+    $data = $this->getData();
+
+    $d = $data["detail"];
+    $t = $data["tags"];
+    $a = $data["authors"];
+
+    $manga_id   = $d["manga_id"];
+    $manga_name = replace_quot($d["manga_name"]);
+    $manga_description = $d["manga_description"];
+    $manga_cover_img = SITE_URL . "img/"  . $manga_id . "/" . $d["manga_cover_img"];
+    $manga_status = $d["manga_status"];
+    $manga_others_name = $d["manga_others_name"];
+
+    $ongoing   = '';
+    $completed = '';
+
+    if ($manga_status == 'f'){
+
+        $ongoing = 'selected="selected"';
+
+    }else{
+
+        $completed = 'selected="selected"';
+    }
+
+
+    if ($t){
+
+        $str_tags = "";
+        $json     = "";
+
+        foreach ($t as $tag) {
+
+            $str_tags .= $tag["tag_name"] .",";
+        }
+
+        $json     = "[" . trim($json,",") ."]";
+        $str_tags = trim($str_tags,",");
+    }
+
+    if ($a){
+
+        $authors_str = "";
+
+        foreach ($a as $author) {
+
+            $authors_str .= $author["author_name"] .",";
+        }
+
+        $authors_str = trim($authors_str,",");
+    }
+
+
+    //// breadcrumb /////////////////////////
+
+    $arr_breadcrumb = [];
+
+    array_push($arr_breadcrumb,[
+        "name" => "Danh sách truyện",
+        "item" => "/admin/manga/list"
+    ]);
+
+    array_push($arr_breadcrumb,[
+        "name" => $manga_name
+    ]);
+
+    $HTML_breadcrumb = dashboard_bc($arr_breadcrumb);
+
+    ///////////////////////////////////////////
+
+    $this->page_title = $manga_name;
+    $this->more_script = '<script src="/public/js/tinymce/tinymce.js"></script>';
+
+    include(VIEW . "admin/header.phtml");
+?>
+    <div class="content">
+        <div class="row">
+            <div class="manga-detail">
+                <?= $HTML_breadcrumb ?>
+                <div class="box-title">
+                    <h2 style="color: #333"><?= $manga_name ?></h2>
+                </div>
+                <div class="col-left">
+                    <div class="cover-img">
+                        <img src="<?= $manga_cover_img ?>">
+                    </div>
+                    <div class="a-input-group">
+                        <input type="file" name="file" id="cover-img">
+                    </div>
+                    <div class="a-input-group">
+                        <a href="/admin/manga/chapters/<?= $manga_id ?>" title="Danh sách chương" class="p-btn"><img src="/public/icons/list.svg"><span>Danh sách chương</span></a>
+                    </div>
+                    <div class="a-input-group">
+                        <a href="/manga/<?= url_name_replace($manga_name) . "-" . $manga_id; ?>" target="_blank" title="Đi đến truyện" class="p-btn bgc3-v3"><img src="/public/icons/link.svg" alt="link">Đi đến truyện</a>
+                    </div>
+                    <div class="a-input-group">
+                        <a href="javascript:void(0)" title="Xóa truyện" id="drop-manga" class="p-btn bgr"><img src="/public/icons/x2.svg"><span>Xóa truyện</span></a>
+                    </div>
+                </div>
+                <div class="col-right">
+                    <div class="a-input-group">
+                        <label>Tác giả : </label>
+                        <div class="manga-authors">
+                            <input id="manga_authors" type="hidden" name="manga-manga_authors" value="<?= @$authors_str ?>">
+                        </div>
+                    </div>
+                    <div class="a-input-group">
+                        <label>Thể loại : </label>
+                        <div class="manga-tags">
+                            <input id="manga_tags" type="hidden" name="manga-tags" value="<?= @$str_tags ?>">
+                        </div>
+                    </div>
+                    <div class="a-input-group">
+                        <label>Tên truyện : </label>
+                        <input type="text" id="manga-name" name="manga-name" value="<?= $manga_name ?>">
+                    </div>
+                    <div class="a-input-group">
+                        <label>Tình trạng : </label>
+                        <select id="status">
+                            <option <?= $ongoing ?> value="0">Đang tiến hành</option>
+                            <option <?= $completed ?> value="1">Đã hoàn thành</option>
+                        </select>
+                    </div>
+                    <div class="a-input-group">
+                        <label>Tên khác : </label>
+                        <textarea id="manga-others-name" name="manga-others-name"><?= $manga_others_name ?></textarea>
+                    </div>
+                    <div class="a-input-group">
+                        <label>Giới thiệu ngắn : </label>
+                        <textarea id="manga-description" name="manga-description"><?= $manga_description ?></textarea>
+                    </div>
+                    <div class="a-input-group" style="text-align: right;">
+                        <button class="edit-btn" id="update_description">Gửi</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var manga_id = <?= $manga_id ?>;
+    </script>
+    <?php
+        include(VIEW . "admin/footer.phtml");
+    ?>
+</body>
+</html>

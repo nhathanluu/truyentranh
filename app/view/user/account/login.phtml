@@ -1,0 +1,36 @@
+<?php
+
+    $message = $this->getData()["message"];
+
+    $this->page_title = "Đăng nhập - " . SITE_NAME;
+    include VIEW . "user/account/header.phtml";
+?>
+    <div class="devilchan">
+        <div class="center-box login">
+            <div class="box">
+                <form action="<?= cur_url() ?>" method="POST">
+                    <div class="user-box-tite">
+                        <a href="<?php echo SITE_URL; ?>" title="devilchan"><?= SITE_NAME ?></a>
+                    </div>
+                    <div class="user-box-body">
+                        <div class="inputBox inputGroup">
+                            <?php  if (isset($message["user"])){ echo '<label class="a">' . $message["user"] . '</label>'; }?>
+                            <input type="text" name="username" placeholder="Tài khoản">
+                        </div>
+                        <div class="inputBox inputGroup">
+                            <?php  if (isset($message["password"])){ echo '<label class="a">' . $message["password"] . '</label>'; }?>
+                            
+                                <input type="password" name="password" placeholder="Mật khẩu">
+                            
+                        </div>
+                    </div>
+                    <div class="user-box-footer clearfix">
+                        <a href="/dang-ky" class="rg-btn" title="Đăng ký">Đăng ký</a>
+                        <button type="submit" name="ok" >Đăng nhập</button>
+                    </div>
+                </form>
+            </div>  
+        </div>
+    </div>
+</body>
+</html>

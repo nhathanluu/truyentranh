@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /admin/
+Allow: /*.js$
+Allow: /*.css$
+Sitemap: https://gautruc.net/sitemap.xml

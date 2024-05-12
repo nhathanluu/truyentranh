@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title><?= $this->page_title ?></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="<?= ICON ?>"  sizes="16x16">
+    <link rel="canonical" href="<?= SITE_URL . trim(strtok($_SERVER["REQUEST_URI"], '?'),"/") ?>"/>
+    <link rel="stylesheet" type="text/css" href="/public/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="/public/css/style.css?time=<?php echo now(); ?>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <?= @$this->more_css ?>
+    <?= @$this->description ? "<meta name=\"description\" content=\"" . strip_tags($this->description) . "\">" : "" ?>
+    <?= @$this->meta ?>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HRSL3LZRH5"></script>
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v11.0&appId=1309190779219499&autoLogAppEvents=1" nonce="vMb56ngK"></script>
+</head>
+<body >
+    <div class="wrapper p-chapter">
+        <div class="header">
+            <div class="inner">
+                <div class="row clearfix">
+                    <!-- <div class="toggle h-btn-menu">
+                        <?= svg::$toggle ?>
+                    </div> -->
+                    <div class="logo" itemscope itemtype="http://schema.org/Organization">
+                        <a title="<?= SITE_NAME ?>" itemprop="url" href="<?= SITE_URL ?>">
+                            <!-- <img itemprop="logo" src="https://gautruc.net/logo.png" alt="<?= SITE_NAME ?>"> -->
+                            <span class="logo-text">GAUTRUC.NET</span>
+                        </a>
+                    </div>
+                    <div class="nav">
+                        <ul class="clearfix">
+                            <li><a title="Mới cập nhật" href="/moi-cap-nhat">Mới cập nhật</a></li>
+                            <li>
+                                <a title="Thể loại" href="/the-loai" class="genres">Thể loại<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="284.929px" height="284.929px" viewBox="0 0 284.929 284.929" style="enable-background:new 0 0 284.929 284.929;" xml:space="preserve"> <g> <path d="M282.082,76.511l-14.274-14.273c-1.902-1.906-4.093-2.856-6.57-2.856c-2.471,0-4.661,0.95-6.563,2.856L142.466,174.441 L30.262,62.241c-1.903-1.906-4.093-2.856-6.567-2.856c-2.475,0-4.665,0.95-6.567,2.856L2.856,76.515C0.95,78.417,0,80.607,0,83.082 c0,2.473,0.953,4.663,2.856,6.565l133.043,133.046c1.902,1.903,4.093,2.854,6.567,2.854s4.661-0.951,6.562-2.854L282.082,89.647 c1.902-1.903,2.847-4.093,2.847-6.565C284.929,80.607,283.984,78.417,282.082,76.511z"/> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> </svg></a>
+                                <div class="dropdown">
+                                    <div class="inner clearfix">
+                                        <?php include VIEW . "main/genre/tags_1.phtml" ?>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="user h-btn-menu">
+                        <img class="user-avatar" src="/public/icons/user.svg" alt="user avatar" width="18" height="18">
+                        <ul class="show-menu">
+                            <?php
+                                $cur_url = cur_url();
+
+echo <<<HTML
+<li><a title="Đăng ký" href="/dang-ky?return={$cur_url}">Đăng ký</a></li>
+<li><a title="Đăng nhập" href="/dang-nhap">Đăng nhập</a></li>
+HTML;
+                            ?>
+                        </ul>
+                    </div>
+                    <div class="search-box">
+                        <form>
+                            <div class="search-wrapper">
+                                <input type="text" class="search-input" name="search" placeholder="Search...">
+                                <button aria-label="search1"><svg fill="#000" height="16px" width="16px" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 513.28 513.28" xml:space="preserve"><path d="M495.04,404.48L410.56,320c15.36-30.72,25.6-66.56,25.6-102.4C436.16,97.28,338.88,0,218.56,0S0.96,97.28,0.96,217.6 s97.28,217.6,217.6,217.6c35.84,0,71.68-10.24,102.4-25.6l84.48,84.48c25.6,25.6,64,25.6,89.6,0 C518.08,468.48,518.08,430.08,495.04,404.48z M218.56,384c-92.16,0-166.4-74.24-166.4-166.4S126.4,51.2,218.56,51.2 s166.4,74.24,166.4,166.4S310.72,384,218.56,384z"></path></svg></button>
+                            </div>
+                        </form>
+                        <div class="search-results"><div class="inner clearfix"></div></div>
+                    </div>
+                    <div class="list-chapter">
+                        <div class="inner">
+                            <div class="right">
+                                <?php 
+
+                    
+                                    $html_footer_btn = "";
+
+                                    if($prev_chapter){
+
+echo  <<<HTML
+<div class="chapter-btn prev"><a title="Chap trước" href="{$prev_chapter}"><i class="fa fa-angle-left"></i></a></div>
+HTML;
+
+$html_footer_btn .= <<<HTML
+<div class="ft-btn prev"><a title="Chap trước" href="{$prev_chapter}"><i class="fa fa-angle-left"></i> Chap trước</a></div>
+HTML;
+                                    } 
+                                ?>
+                                <div class="select-chapter">
+                                    <select>
+                                        <?= $list_chapters ?>
+                                    </select>
+                                </div>
+                                <?php 
+                                    if($next_chapter){
+
+echo <<<HTML
+<div class="chapter-btn next"><a title="Chap sau" href="{$next_chapter}"><i class="fa fa-angle-right"></i></a></div>
+HTML;
+
+$html_footer_btn .= <<<HTML
+<div class="ft-btn next"><a title="Chap sau" href="{$next_chapter}">Chap sau <i class="fa fa-angle-right"></i> </a></div>
+HTML;
+                                    } 
+                                ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="sub-header" style="display: none">
+            <div class="row clearfix">
+                <ul>
+                    <li class="home-btn"><a href="/" title="Trang chủ"><i class="fa fa-home" aria-hidden="true"></i></a></li>
+                    <li><a title="Mới cập nhật" href="/moi-cap-nhat">Mới cập nhật</a></li>
+                    <li><a title="Lịch sử" href="/lich-su">Lịch sử</a></li>
+                    <li style="border-right: 0px"><a title="Mới cập nhật" href="/the-loai">Thể loại</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="sidebar" id="sidebar_custom" style="display: none">
+            <div class="logo">
+                <a title="<?= SITE_NAME ?>" href="/">
+                    <?= SITE_NAME ?>
+                </a>
+            </div>
+            <div class="nav">
+                <ul class="clearfix">
+                    <li class="home-btn"><a href="/" title="Trang chủ"><i class="fa fa-home" aria-hidden="true"></i></a></li>
+                    <li><a title="Mới cập nhật" href="/moi-cap-nhat">Mới cập nhật</a></li>
+                    <li><a title="Mới cập nhật" href="/the-loai">Thể loại</a></li>
+                </ul>
+            </div>
+            <div class="search-box">
+                <form>
+                    <div class="search-wrapper">
+                        <input type="text" class="search-input" name="search" placeholder="Search...">
+                        <button aria-label="search2"><svg fill="#000" height="16px" width="16px" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 513.28 513.28" xml:space="preserve"><path d="M495.04,404.48L410.56,320c15.36-30.72,25.6-66.56,25.6-102.4C436.16,97.28,338.88,0,218.56,0S0.96,97.28,0.96,217.6 s97.28,217.6,217.6,217.6c35.84,0,71.68-10.24,102.4-25.6l84.48,84.48c25.6,25.6,64,25.6,89.6,0 C518.08,468.48,518.08,430.08,495.04,404.48z M218.56,384c-92.16,0-166.4-74.24-166.4-166.4S126.4,51.2,218.56,51.2 s166.4,74.24,166.4,166.4S310.72,384,218.56,384z"></path></svg></button>
+                    </div>
+                </form>
+                <div class="search-results"><div class="inner clearfix"></div></div>
+            </div>
+        </div>
+        <div class="fixed-white-background"></div>
+        

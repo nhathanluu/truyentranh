@@ -1,0 +1,121 @@
+<?php
+
+    $data = $this->getData();
+
+    $manga = $data["manga"];
+    $pagi  = $data["pagi"];
+    $page  = $data["page"];
+
+    $arr_breadcrumb = [];
+
+    array_push($arr_breadcrumb,[
+        "name" => "Danh sách truyện"
+    ]);
+
+    $HTML_breadcrumb = dashboard_bc($arr_breadcrumb);
+
+    $page_title = "Danh sách truyện";
+
+
+    if($page > 1){
+        
+        $page_title .= " | Trang " . $page;
+    }
+
+    $fsort = filter_params("sort");
+    $fdate = filter_params("date");
+
+    $url_path = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
+
+    $sort = @("_" . $_GET["sort"]);
+    $$sort = 'selected="selected"';
+
+    $date  = @("_" . $_GET["date"]);
+    $$date = 'selected="selected"';
+
+    $this->page_title = $page_title;
+
+    include(VIEW . "admin/header.phtml");
+?>
+    <div class="content">
+        <div class="row">
+            <?= $HTML_breadcrumb ?>
+            <div class="box-title">
+                <h2><?= $page_title ?> <i class="fa fa-angle-right"></i></h2>
+            </div>
+            <div class="search-box">
+                <input type="text" name="search">
+                <button aria-label="search2"><svg fill="#000" height="16px" width="16px" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 513.28 513.28" xml:space="preserve"><path d="M495.04,404.48L410.56,320c15.36-30.72,25.6-66.56,25.6-102.4C436.16,97.28,338.88,0,218.56,0S0.96,97.28,0.96,217.6 s97.28,217.6,217.6,217.6c35.84,0,71.68-10.24,102.4-25.6l84.48,84.48c25.6,25.6,64,25.6,89.6,0 C518.08,468.48,518.08,430.08,495.04,404.48z M218.56,384c-92.16,0-166.4-74.24-166.4-166.4S126.4,51.2,218.56,51.2 s166.4,74.24,166.4,166.4S310.72,384,218.56,384z"></path></svg></button>
+            </div>
+            <div class="select-box manga-sort-by">
+                <select>
+                    <option value="<?= $url_path ?>?sort=latest<?= $fsort ?>" <?= @$_lastest ?>>Mới cập nhật</option>
+                    <option value="<?= $url_path ?>?sort=views<?= $fsort ?>" <?= @$_views ?> >Lượt xem</option>
+                    <option value="<?= $url_path ?>?sort=chapters<?= $fsort ?>"  <?= @$_chapters ?> >Số chapter</option>
+                </select>
+            </div>
+            <div class="select-box manga-sort-by">
+                <select>
+                    <option value="<?= $url_path ?>?date=<?= $fdate ?>" <?= @$_lastest ?>>Ngày</option>
+                    <option value="<?= $url_path ?>?date=today<?= $fdate ?>" <?= @$_today ?> >Hôm nay</option>
+                    <option value="<?= $url_path ?>?date=yesterday<?= $fdate ?>" <?= @$_yesterday ?> >Hôm qua</option>
+                    <option value="<?= $url_path ?>?date=week<?= $fdate ?>" <?= @$_week ?> >Tuần này</option>
+                </select>
+            </div>
+            <div class="manga-list clearfix">
+                <?php
+                    
+                    if($manga){
+
+                        $html = '';
+
+                        foreach ($manga as $m_item) {
+                            $manga_id   = $m_item["manga_id"];
+                            $manga_name = $m_item["manga_name"];
+                            $cover_img  = SITE_URL . "img/" . $manga_id . "/" .$m_item["manga_cover_img"];
+                            $link_manga = "/manga/" . url_name_replace($manga_name) . "-" . $manga_id;
+                            $total_chapters = $m_item["total_chapters"];
+                            $manga_updated = time_elapsed_string($m_item["manga_updated"]);
+
+$html .= <<<HTML
+<div class="m-item">
+<div class="cover-img"><a href="/admin/manga/{$manga_id}" title="{$manga_name}"><img src="{$cover_img}" alt="{$manga_name}"></a></div>
+<div class="m-chaptes clearfix">
+<div style="margin-bottom: 10px;font-size: 14px">
+ID truyện  : {$manga_id}
+</div>
+<div style="margin-bottom: 10px;font-size: 14px">
+Số chương : {$total_chapters}
+</div>
+<div style="margin-bottom: 10px;font-size: 14px">
+Cập nhật  : {$manga_updated}
+</div>
+<div class="m-list-chapters">
+<a href="/admin/manga/chapters/{$manga_id}" title="Chapters">
+    <i class="fa fa-list" aria-hidden="true"></i> <span>Chapters</span>
+</a>
+</div>
+<div class="m-manga-link">
+<a href="{$link_manga}" title="link to manga" target="_blank">
+    <i class="fa fa-external-link" aria-hidden="true"></i>
+</a>
+</div>
+</div>
+<div class="manga-name"> <a href="/admin/manga/{$manga_id}">{$manga_name}</a> </div>
+</div>
+HTML;
+                        }
+
+                        echo $html;
+
+                        echo html::pagi(html::pagi_render($pagi));
+                    }
+                ?>
+            </div>
+        </div>
+    </div>
+<?php
+    include(VIEW . "admin/footer.phtml");
+?>
+</body>
+</html>

@@ -1,0 +1,18 @@
+
+Manga crawled
+Chapter crawling...crawling http://www.nettruyentop.com/truyen-tranh/oshi-no-ko/chap-1/561695 .... 
+
+-> Error : '//truyenimg.xyz/data/images/29106/561695/001.jpg?data=net' is not an image , recrawl 1 times 
+-> Error : '//truyenimg.xyz/data/images/29106/561695/001.jpg?data=net' is not an image , recrawl 2 times 
+-> Error : '//truyenimg.xyz/data/images/29106/561695/001.jpg?data=net' is not an image , recrawl 3 times 
+-> Error : '//truyenimg.xyz/data/images/29106/561695/001.jpg?data=net' is not an image , recrawl 4 times 
+-> Error : '//truyenimg.xyz/data/images/29106/561695/001.jpg?data=net' is not an image , recrawl 5 times 
+Error : '//truyenimg.xyz/data/images/29106/561695/001.jpg?data=net' failed to crawl
+Warning: file_put_contents(/www/wwwroot/truyen.thietkewebtheomau.com/nettruyen/crawl_errors/221.txt): Failed to open stream: Permission denied in /var/www/nettruyen/crawl/nettruyen_chapter.php on line 215
+---------------------------------------
+crawling http://www.nettruyentop.com/truyen-tranh/oshi-no-ko/chap-2/567044 .... 
+
+-> Error : '//truyenimg.xyz/data/images/29106/567044/001.jpg?data=net' is not an image , recrawl 1 times 
+-> Error : '//truyenimg.xyz/data/images/29106/567044/001.jpg?data=net' is not an image , recrawl 2 times 
+-> Error : '//truyenimg.xyz/data/images/29106/567044/001.jpg?data=net' is not an image , recrawl 3 times 
+-> Error : '//truyenimg.xyz/data/images/29106/567044/001.jpg?data=net' is not an image , recrawl 4 times 

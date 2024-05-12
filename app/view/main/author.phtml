@@ -1,0 +1,62 @@
+<?php
+    $d = $this->getData();
+
+    $pagi = $d["pagi"];
+    $page = @$d["page"];
+    $author_name = ucname($d["author_name"]);
+
+    $manga_list = $d["manga"];
+
+    $arr_breadcrumb = [];
+
+    array_push($arr_breadcrumb,[
+        "name" => "Thể loại",
+        "item" => "/the-loai"
+    ]);
+    
+    array_push($arr_breadcrumb,[
+        "name" => $author_name
+    ]);
+
+    $p_title = "Tác giả : {$author_name}";
+
+    $HTML_breadcrumb = html::breadcrumb($arr_breadcrumb);
+
+    $this->description = $p_title . " - Đọc truyện tranh online, truyện manga cập nhật liên tục mỗi ngày với hình ảnh chất lượng cao";
+    $this->page_title = $p_title . " - " . SITE_NAME;
+
+    include VIEW . "main/header.phtml";
+?>
+    <div class="content">
+        <div class="row content-inner">
+            <div class="author-content clearfix">
+                <div class="breadcrumb-wrapper"><?=  $HTML_breadcrumb ?></div>
+                <div class="col-left">
+                    <div class="genre-title"><h1>Tác giả : <?= $author_name  ?></h1></div>
+                    <div class="manga-actions">
+                        <select>
+                            <option>Genre</option>
+                            <?php include VIEW . "main/genre/tags_3.phtml" ?>
+                        </select>
+                    </div>
+                    <?php 
+                        include VIEW . "main/manga_list.phtml";
+                    ?>
+                    <?php if(@$pagi["pages"]) echo html::pagi(html::pagi_render($pagi)) ?>
+                </div>
+                <div class="col-right">
+                    <div class="box-title">
+                        <h2>Thể loại <i class="fa fa-angle-right"></i></h2>
+                    </div>
+                    <div class="genres-box clearfix">
+                        <?php include VIEW . "main/genre/tags_2.phtml" ?>
+                    </div>
+                </div>
+            </div>
+        </div>  
+    </div>
+<?php
+    include VIEW . "main/footer.phtml";
+?>
+</body>
+</html>

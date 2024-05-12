@@ -1,0 +1,39 @@
+<?php
+
+    $arr_breadcrumb = [];
+
+    array_push($arr_breadcrumb,[
+        "name" => "Crawl"
+    ]);
+
+    $HTML_breadcrumb = dashboard_bc($arr_breadcrumb);
+
+    ///////////////////////////////////////////
+
+    $page_title = "Crawl";
+
+    $this->page_title = $page_title;
+
+    include(VIEW . "admin/header.phtml");
+?>
+    <div class="content">
+        <div class="row">
+            <?= $HTML_breadcrumb ?>
+            <div class="box-title">
+                <h1><span><?= $page_title ?></span> <i class="fa fa-angle-right"></i></h1>
+            </div>
+            <div class="a-input-group">
+                <label>Content : </label>
+                <input type="text" id="url" name="url">
+            </div>
+            <div class="a-input-group" align="right">
+                <button class="edit-btn" id="stop">Stop</button>
+                <button class="edit-btn" id="send">Submit</button>
+            </div>
+        </div>
+    </div>
+    <?php
+        include(VIEW . "admin/footer.phtml");
+    ?>
+</body>
+</html>

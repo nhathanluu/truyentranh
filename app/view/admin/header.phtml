@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><?= $this->page_title ?></title>
+    <link rel="icon" href="<?= ICON ?>"  sizes="16x16">
+    <link rel="stylesheet" type="text/css" href="/public/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="/public/css/manga.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <div class="header">
+        <div class="row clearfix">
+            <div class="nav">
+                <ul class="clearfix">
+                    <li><a title="Bảng điểu khiển" href="/admin/dashboard">Bảng điểu khiển</a></li>
+                    <li>
+                        <a title="Latest manga" href="javascript:void(0)">Quản lí truyện <i class="fa fa-angle-down"></i></a>
+                        <div class="dropdown">
+                            <div class="inner">
+                                <a title="Danh sách truyện" href="/admin/manga/list">Danh sách truyện</a>
+                                <a title="Add new manga" href="/admin/manga/add">Thêm truyện</a>
+                                <a title="Pin manga" href="/admin/manga/pin">Ghim truyện</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <a title="Thành viên" href="/admin/member/list">Thành viên</a>
+                    </li>
+                    <li>
+                        <a title="Thể loại" href="/admin/tag/list">Thể loại</a>
+                    </li>
+                    <li>
+                        <a title="Báo lỗi" href="/admin/report/list">Báo lỗi</a>
+                    </li>
+                    <li>
+                        <a title="Cào truyện" href="/admin/crawl">Cào truyện</a>
+                    </li>
+                    <li>
+                        <a title="Khác" href="/admin/others">Khác</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>

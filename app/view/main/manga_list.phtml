@@ -1,0 +1,76 @@
+<div class="pda <?= isset($_class) ? $_class : 'manga-list' ?> clearfix">
+    <?php
+        foreach ($manga_list as $manga) :
+
+            $manga_id        = $manga["manga_id"];
+            $manga_name      = replace_quot($manga["manga_name"]);
+            $manga_cover_img = SITE_URL . "img/" . $manga_id . "/" . $manga["manga_cover_img"];
+
+            $manga_name_url  = url_name_replace($manga["manga_name"]);
+
+            $manga_url       = "/manga/" . $manga_name_url . "-" . $manga_id;
+
+            $manga_chapters = json_decode($manga["manga_chapters"],true);
+
+            $_sizes = @get_size($manga_cover_img)[1];
+            $r_manga_views     = $manga["manga_views"];
+            $r_manga_comments     = $manga["manga_comments"];
+            
+    ?>
+    <div class="m-item">
+        <div class="m-img">
+            <a href="<?= $manga_url ?>" title="<?= $manga_name ?>">
+                <img src="<?= $manga_cover_img ?>" title="<?= $manga_name ?>" alt="<?= $manga_name ?>"<?= @$_sizes ?> />
+            </a>
+            <div class="view clearfix">
+                <span class="pull-left">
+                <i class="fa fa-eye">
+                </i> <?php echo number_format($r_manga_views); ?>
+                <i class="fa fa-comment m-left-15"></i> <?php echo number_format($r_manga_comments); ?> 
+                <!-- <i class="fa fa-heart"></i> 1.051 -->
+            </span>
+            </div>
+        </div>
+        <div class="m-wrap">
+            <div class="m-title"><a href="<?= $manga_url ?>" title="<?= $manga_name ?>"><?= $manga_name ?></a></div>
+            <div class="m-chapters">
+                <ul>
+                    <?php
+                        if($manga_chapters):
+                            
+                            foreach ($manga_chapters as $manga_chapter) :
+
+                                if ($manga_chapter){
+
+                                    $chapter_number         = $manga_chapter["chapter_number"];
+                                    $chapter_date_published = $manga_chapter["chapter_date_published"];
+                                    
+                                    $chapter_url   = "/manga/{$manga_name_url}-{$manga_id}/chapter-{$chapter_number}";
+                                    $chapter_title = "Chapter " . $chapter_number;
+                                    
+                                    $chapter_updated = time_elapsed_string($chapter_date_published);
+
+echo <<<HTML
+<li><a href="{$chapter_url}" title="{$chapter_title}">{$chapter_title}</a><span>{$chapter_updated}</span></li>
+HTML;
+
+                                }
+
+                            endforeach;
+
+                        else :
+
+echo <<<HTML
+<li>Đang cập nhật...</li>
+HTML;
+
+                        endif;
+                    ?>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <?php
+        endforeach;
+    ?>
+</div>

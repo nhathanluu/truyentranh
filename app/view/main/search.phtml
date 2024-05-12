@@ -1,0 +1,69 @@
+<?php
+    $d = $this->getData();
+
+    if($d){
+
+        $pagi = $d["pagi"];
+        $page = $d["page"];
+
+        $manga_list = $d["manga_list"];
+
+        $_class = "manga-list2";
+    }
+
+    $arr_breadcrumb = [];
+
+    array_push($arr_breadcrumb,[
+        "name" => "Tìm kiếm truyện"
+    ]);
+
+    $HTML_breadcrumb = html::breadcrumb($arr_breadcrumb); 
+
+    $page_title = "Tìm kiếm truyện";
+
+    if(@$page > 1){
+        $page_title = $page_title . " | Trang " . $page;
+    }
+
+    $description = "Tìm kiếm truyện - Đọc truyện tranh online, truyện manga cập nhật liên tục mỗi ngày vơi hình ảnh chất lượng cao.";
+
+    $cur_url = cur_url_without_paras();
+
+    
+    $this->description = $description;
+    $this->page_title = $page_title . " - " . SITE_NAME;
+
+    include VIEW . "main/header.phtml";
+?>
+    <div class="content">
+        <div class="row content-inner clearfix">
+            <?= $HTML_breadcrumb ?>
+            <div class="box-title">
+                <h1>Tìm kiếm truyện <i class="fa fa-angle-right"></i></h1>
+            </div>
+            <?php 
+                if(@$manga_list){
+
+                    include VIEW . "main/manga_list.phtml";
+
+                    if(@$pagi["pages"]){
+
+                        echo html::pagi(html::pagi_render($pagi));
+                    }
+
+                }else{
+
+                    ?>
+                    <div class="no-data">
+                        <?php echo "Không tìm thấy kết quả"; ?>
+                    </div>
+                    <?php
+                }
+            ?>
+        </div>  
+    </div>
+<?php
+    include VIEW . "main/footer.phtml";
+?>
+</body>
+</html>

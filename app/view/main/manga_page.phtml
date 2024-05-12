@@ -1,0 +1,66 @@
+<?php
+    $d = $this->getData();
+    $pagi = $d["pagi"];
+    $page = $d["page"];
+
+    $manga_list = $d["manga_list"];
+
+    $arr_breadcrumb = [];
+
+    array_push($arr_breadcrumb,[
+        "name" => "Truyện mới cập nhật"
+    ]);
+
+    $HTML_breadcrumb = html::breadcrumb($arr_breadcrumb); 
+
+    $page_title = "Truyện mới cập nhật";
+
+    if($page > 1){
+        $page_title = $page_title . " | Trang " . $page;
+    }
+
+    $description = "Truyện mới cập nhật - Đọc truyện tranh online, truyện manga cập nhật liên tục mỗi ngày với hình ảnh chất lượng cao.";
+
+    $cur_url = cur_url_without_paras();
+
+    $this->meta = <<<HTML
+<meta property="og:title" content="{$page_title}" />
+<meta property="og:type" content="website">
+<meta property="og:url" content="{$cur_url}" />
+<meta property="og:description" content="{$description}" />
+<meta name="twitter:site" content="@Mangaloli" />
+<meta name="twitter:title" content="{$page_title}"/>
+<meta name="twitter:description" content="{$description}"/>
+HTML;
+    $this->description = $description;
+    $this->page_title = $page_title . " - " . SITE_NAME;
+
+    include VIEW . "main/header2.phtml";
+?>
+    <div class="content">
+        <div class="row content-inner clearfix">
+            <?= $HTML_breadcrumb ?>
+            <div class="box-title">
+                <h1>Truyện mới cập nhật <i class="fa fa-angle-right"></i></h1>
+            </div>
+            <div class="col-left">
+            <?php 
+                include VIEW . "main/manga_list.phtml";
+
+                if(@$pagi["pages"]){
+
+                    echo html::pagi(html::pagi_render($pagi));
+                }
+            ?>
+            </div>
+            <div class="col-right">
+                <div id="rp-box-title"></div>
+                <div id="rp-history"></div>
+            </div>
+        </div>  
+    </div>
+<?php
+    include VIEW . "main/footer.phtml";
+?>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<?php
+    $data = $this->getData();
+
+    $users = $data["users"];
+    $pagi  = $data["pagi"];
+    $page  = $data["page"];
+
+    //// breadcrumb /////////////////////////
+
+    $arr_breadcrumb = [];
+
+    array_push($arr_breadcrumb,[
+        "name" => "Thành viên"
+    ]);
+
+    $HTML_breadcrumb = dashboard_bc($arr_breadcrumb);
+
+    ///////////////////////////////////////////
+
+    $page_title = "Thành viên";
+
+    if($page > 1){
+        
+        $page_title .= " | Trang " . $page;
+    }
+
+    $this->page_title = $page_title;
+
+    $fdate = filter_params("date");
+
+    $date  = @("_" . $_GET["date"]);
+    $$date = 'selected="selected"';
+
+    $url_path = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
+
+    include(VIEW . "admin/header.phtml");
+?>
+    <div class="content">
+        <div class="row">
+            <?= $HTML_breadcrumb ?>
+            <div class="box-title">
+                <h2><span><?= $page_title ?></span> <i class="fa fa-angle-right"></i></h2>
+            </div>
+            <div class="search-box">
+                <input type="text" name="search">
+                <button aria-label="search2">
+                    <svg fill="#000" height="16px" width="16px" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 513.28 513.28" xml:space="preserve"><path d="M495.04,404.48L410.56,320c15.36-30.72,25.6-66.56,25.6-102.4C436.16,97.28,338.88,0,218.56,0S0.96,97.28,0.96,217.6 s97.28,217.6,217.6,217.6c35.84,0,71.68-10.24,102.4-25.6l84.48,84.48c25.6,25.6,64,25.6,89.6,0 C518.08,468.48,518.08,430.08,495.04,404.48z M218.56,384c-92.16,0-166.4-74.24-166.4-166.4S126.4,51.2,218.56,51.2 s166.4,74.24,166.4,166.4S310.72,384,218.56,384z"></path></svg>
+                </button>
+            </div>
+            <div class="select-box manga-sort-by">
+                <select>
+                    <option value="<?= $url_path ?>?date=<?= $fdate ?>">Chọn ngày</option>
+                    <option value="<?= $url_path ?>?date=today<?= $fdate ?>" <?= @$_today ?> >Hôm nay</option>
+                </select>
+            </div>
+            <div class="member-list">
+                <?php
+                if($users){
+                    foreach ($users as $u) :
+
+                        $u_id        = $u["user_id"];
+                        $u_avatar    = $u["avatar"] != null ? SITE_URL . $u["avatar"] : TH_PUBLIC . "icons/default.jpg";
+                        $u_name      = $u["account"];
+                        $u_nick_name = $u["nickname"];
+                        $u_level     = $u["level"];
+
+                        if($u_level == 3){
+
+$HTML_ban = <<<HTML
+<a href="javascript:void(0)" id="unban-account" class="a-u-btn bgc3-v3" title="Mở khóa tài khoản">
+<img src="/public/icons/open_lock.svg" alt="Mở khóa tài khoản">Mở khóa tài khoản
+</a>
+HTML;
+
+                        }else{
+
+$HTML_ban = <<<HTML
+<a href="javascript:void(0)" id="ban-account" class="a-u-btn bgr" title="Khóa tài khoản">
+<img src="/public/icons/ban.svg" alt="Khóa tài khoản">Khóa tài khoản
+</a>
+HTML;
+                        }
+
+echo <<<HTML
+<div class="a-member-item clearfix" data-user-id="{$u_id}">
+<div class="img-holder"><img src="{$u_avatar}"></div>
+<div class="a-user">
+<div class="a-user-name"><a href="#"><span class="a-u-n">{$u_name}</span> - <span class="nickname">( {$u_nick_name} )</span> - USER ID : <span class="user-id">{$u_id}</span></a></div>
+<div class="a-user-btn">
+<a href="/admin/member/comments/{$u_id}" title="Bình luận">
+<img src="/public/icons/cmt.svg" alt="Bình luận">Bình luận
+</a>
+{$HTML_ban}
+</div>
+</div>
+</div>
+HTML;
+                    endforeach;
+                }
+                ?>
+            </div>
+            <?= $pagi ? html::pagi(html::pagi_render($pagi)) : "" ?>
+        </div>
+    </div>
+    <?php
+        include(VIEW . "admin/footer.phtml");
+    ?>
+</body>
+</html>

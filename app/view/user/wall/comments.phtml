@@ -1,0 +1,66 @@
+<?php
+    $d = $this->getData();
+
+    $cmts = @$d["cmts"];
+    $d["pagi"]["url"] = "/member/comments";
+    $page = @$d["page"];
+
+    $page_title = "Bình luận";
+
+    if($page > 1){
+        $page_title = $page_title . " | Page " . $page;
+    }
+
+    $this->page_title = $page_title . " - " . SITE_NAME;
+    include VIEW . "user/wall/header.phtml";
+?>
+    <div class="content">
+        <div class="row content-inner clearfix">
+            <?php include  VIEW . "user/wall/sidebar.phtml" ?>
+            <div class="user-form">
+                <div class="box-title">
+                    <h2><?= $page_title ?> <i class="fa fa-angle-right"></i></h2>
+                </div>
+
+                <?php
+
+                    if($cmts):
+
+                        echo "<div>";
+
+                        foreach ($cmts as $cmt) :
+
+                            $manga_id = $cmt["manga_id"];
+                            $manga_name = $cmt["manga_name"];
+
+                            $cover_img = SITE_URL . "img/{$manga_id}/{$cmt['manga_cover_img']}";
+                            $manga_url = "/manga/" . url_name_replace($manga_name) . "-" . $manga_id;
+                            $date_cmt  = $cmt["cmt_date_published"];
+
+                            $cmt_content = $cmt["cmt_content"];
+                ?>
+                <div class="u-cmt-item clearfix">
+                    <div class="u-img-holder">
+                        <a href="<?= $manga_url ?>" title="<?= $manga_name ?>"><img src="<?= $cover_img ?>"></a>
+                    </div>
+                    <div class="u-manga-title"><a title="<?= $manga_name ?>" href="<?= $manga_url ?>"><?= $manga_name ?></a></div>
+                    <div class="u-cmt-content"><?= $cmt_content ?></div>
+                    <div class="u-cmt-date"><?= time_elapsed_string($date_cmt) ?></div>
+                </div>
+                <?php 
+                        endforeach;
+                        echo "</div>";
+                        echo html::pagi(html::pagi_render($d["pagi"]));
+
+                    else:
+
+                        echo "Bạn chưa có bình luận nào";
+
+                    endif
+                ?>
+            </div>
+        </div>
+    </div>
+<?php
+    include VIEW . "main/footer.phtml";
+?>

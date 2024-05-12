@@ -1,0 +1,70 @@
+<?php
+    $data = $this->getData();
+
+    $e = $data["edit"]; 
+
+    $chapter_id      = $e["chapter_id"];
+    $chapter_title   = $e["chapter_title"];
+    $chapter_number  = $e["chapter_number"];
+    $chapter_content = $e["chapter_content"];
+
+    $manga_name = $e["manga_name"];
+    $manga_id   = $e["manga_id"];
+
+    $arr_breadcrumb = [];
+
+    array_push($arr_breadcrumb,[
+        "name" => "Danh sách truyện",
+        "item" => "/admin/manga/list"
+    ]);
+
+    array_push($arr_breadcrumb,[
+        "name" => $manga_name,
+        "item" => "/admin/manga/" . $manga_id  
+    ]);
+
+    array_push($arr_breadcrumb,[
+        "name" => "Danh sách chương",
+        "item" => "/admin/manga/chapters/" . $manga_id
+    ]);
+
+    array_push($arr_breadcrumb,[
+        "name" => "Chapter " . $chapter_number
+    ]);
+
+    $HTML_breadcrumb = dashboard_bc($arr_breadcrumb);
+
+    ////////////////////////////////////////////
+
+    $this->page_title = $manga_name  . " - Chapter " . $chapter_number;
+
+    include(VIEW . "admin/header.phtml");
+?>
+    <div class="content">
+        <div class="row">
+            <?= $HTML_breadcrumb ?>
+            <div class="box-title">
+                <h1><?= $manga_name . " - <span>chapter " . $chapter_number . "</span>"?></h1>
+            </div>
+            <div class="chapter-detail">
+                <div class="a-input-group">
+                    <label>Tên chương :</label>
+                    <input type="text" id="chapter-title" name="chapter-title" value="<?= $chapter_title ?>">
+                </div>
+                <div class="a-input-group">
+                    <label>Số thứ tự chương :</label>
+                    <input type="text" id="chapter-number" name="chapter-number" value="<?= $chapter_number ?>">
+                </div>
+                <div class="a-input-group">
+                    <label>Nội dung chương :</label>
+                    <textarea id="chapter-content"><?= $chapter_content ?></textarea>
+                </div>
+                <div class="a-input-group" align="right">
+                    <button type="submit" class="edit-btn" id="update-chapter" data-chapter-id="<?= $chapter_id ?>">Cập nhật</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php include(VIEW . "admin/footer.phtml"); ?>
+</body>
+</html>

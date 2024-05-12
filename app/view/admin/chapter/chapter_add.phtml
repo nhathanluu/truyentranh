@@ -1,0 +1,63 @@
+<?php
+    $data = $this->getData();
+
+    $manga_name = $data["manga_name"];
+    $manga_id   = $data["manga_id"];
+
+    $arr_breadcrumb = [];
+
+    array_push($arr_breadcrumb,[
+        "name" => "Manga list",
+        "item" => "/admin/manga/list"
+    ]);
+
+    array_push($arr_breadcrumb,[
+        "name" => $manga_name,
+        "item" => "/admin/manga/" . $manga_id  
+    ]);
+
+    array_push($arr_breadcrumb,[
+        "name" => "Chapters",
+        "item" => "/admin/manga/chapters/" . $manga_id
+    ]);
+
+    array_push($arr_breadcrumb,[
+        "name" => "Thêm chương mới"
+    ]);
+
+    $HTML_breadcrumb = dashboard_bc($arr_breadcrumb);
+
+    ////////////////////////////////////////////
+
+    $this->page_title = "Thêm chương mới";
+
+    include(VIEW . "admin/header.phtml");
+?>
+    <div class="content">
+        <div class="row">
+            <?= $HTML_breadcrumb ?>
+            <div class="box-title">
+                <h1><span style="color: #333"><?= $manga_name ?></span> - <span>Thêm chương mới</span> <i class="fa fa-angle-right"></i></h1>
+            </div>
+            <div class="chapter-detail">
+                <div class="a-input-group">
+                    <label>Tên chương :</label>
+                    <input type="text" id="chapter-title" name="chapter-title">
+                </div>
+                <div class="a-input-group">
+                    <label>Thứ tự chương :</label>
+                    <input type="text" id="chapter-number" name="chapter-number">
+                </div>
+                <div class="a-input-group">
+                    <label>Nội dung chương :</label>
+                    <textarea id="chapter-content"></textarea>
+                </div>
+                <div class="a-input-group" align="right">
+                    <button type="submit" class="edit-btn" id="add-chapter" data-manga-id="<?= $manga_id ?>">Thêm mới</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php include(VIEW . "admin/footer.phtml"); ?>
+</body>
+</html>

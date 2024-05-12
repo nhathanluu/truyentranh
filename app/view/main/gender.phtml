@@ -1,0 +1,62 @@
+<?php
+    
+    $d = $this->getData();
+
+    $pagi = @$d["pagi"];
+    $page = @$d["page"];
+
+    $manga_list = @$d["manga_list"];
+
+    if($d["gender"] == "con-gai"){
+
+        $page_title  = "Truyện tranh con gái, tình cảm & lãng mạn";
+        $description = "Truyện tranh dành cho phái nữ, nội dung thường liên quan đến tình cảm, lãng mạn, có nhiều cung bậc cảm xúc trong tình yêu"; 
+        $p_title = "Truyện con gái";
+
+    }else{
+
+        $page_title  = "Truyện tranh dành cho con trai";
+        $description = "Truyện tranh dành cho nam, nội dung thường liên quan đến bạo lực, đánh nhau, phiêu lưu, kinh dị,.."; 
+        $p_title = "Truyện con trai";
+    }
+
+    $arr_breadcrumb = [];
+
+    array_push($arr_breadcrumb,[
+        "name" => $p_title
+    ]);
+
+    $HTML_breadcrumb = html::breadcrumb($arr_breadcrumb); 
+
+    $this->description = $description;
+    $this->page_title = $page_title . " - " . SITE_NAME;
+
+    include VIEW . "main/header.phtml";
+?>
+    <div class="content">
+        <div class="row content-inner clearfix">
+            <?= $HTML_breadcrumb ?>
+            
+            <div class="box-title">
+                <h1 ><?= $p_title  ?> <i class="fa fa-angle-right"></i></h1>
+            </div>
+            <div class="col-left">
+            <?php
+
+                if($manga_list){
+                    include VIEW . "main/manga_list.phtml";
+                    echo html::pagi(html::pagi_render($pagi));
+                }
+            ?>
+            </div>
+            <div class="col-right">
+                <div id="rp-box-title"></div>
+                <div id="rp-history"></div>
+            </div>
+        </div>  
+    </div>
+<?php
+    include VIEW . "main/footer.phtml";
+?>
+</body>
+</html>

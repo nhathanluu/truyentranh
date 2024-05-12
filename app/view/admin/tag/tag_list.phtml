@@ -1,0 +1,74 @@
+<?php
+    $tags = $this->getData();
+
+    //// breadcrumb /////////////////////////
+
+    $arr_breadcrumb = [];
+
+    array_push($arr_breadcrumb,[
+        "name" => "Thể loại"
+    ]);
+
+    $HTML_breadcrumb = dashboard_bc($arr_breadcrumb);
+
+    ///////////////////////////////////////////
+
+    $sort = @("_" . $_GET["sort"]);
+    $$sort = 'selected="selected"';
+
+    $page_title = "Thể loại";
+
+    $this->page_title = $page_title;
+
+    include(VIEW . "admin/header.phtml");
+?>
+    <div class="content">
+        <div class="row">
+            <?= $HTML_breadcrumb ?>
+            <div class="box-title">
+                <h1><span><?= $page_title ?></span> <i class="fa fa-angle-right"></i></h1>
+            </div>
+            <div class="select-box manga-sort-by">
+                <select>
+                    <option value="name" <?= @$_name ?> >Tên</option>
+                    <option value="id" <?= @$_id ?> >ID</option>
+                    <option value="manga" <?= @$_manga ?> >Số truyện</option>
+                </select>
+            </div>
+            <div class="tag-list">
+                <ul class="clear-fix">
+                    <li class="thead">
+                        <div class="col-1">Tên</div>
+                        <div class="col-2" align="center">Số truyện</div>
+                        <div class="col-2" align="center">ID</div>
+                        <div class="col-2" align="right">Hành động</div>
+                    </li>
+                    <?php
+                        foreach ($tags as $t) :
+                            $tag_id   = $t["tag_id"];
+                            $tag_name = ucfirst($t["tag_name"]);
+                            $count    = $t["count"];
+                            $url      = "/admin/tag/detail/" . $tag_id;
+                    ?>
+                    <li>
+                        <div class="col-1">
+                             <a href="<?= $url ?>"><?= $tag_name ?></span></a>
+                        </div>
+                        <div class="col-2" align="center"><?= $count ?></div>
+                        <div class="col-2" align="center"><?= $tag_id ?></div>
+                        <div class="col-2">
+                            <a class="delete-tag" href="javascript:void(0)" data-tag-name="<?= $tag_name ?>" data-tag-id="<?= $tag_id ?> "><img src="/public/icons/x.svg"> <span>Xóa</span></a>
+                        </div>
+                    </li>
+                    <?php
+                        endforeach;
+                    ?>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <?php
+        include(VIEW . "admin/footer.phtml");
+    ?>
+</body>
+</html>

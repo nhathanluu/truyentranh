@@ -1,0 +1,131 @@
+<?php
+    $current_url = 'https://'.$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+    $data = $this->getData();
+    
+    $d              = $data["chapter_detail"];
+    $list_chapters  = $data["list_chapters"];
+
+    $cmts = $data["comments"];
+
+    $chapter_number = $d["chapter_number"];
+
+    $next_chapter = $data["next_chapter"];
+    $prev_chapter = $data["prev_chapter"];
+
+    $chapter_id = $data["chapter_id"];
+
+    $manga_name    = replace_quot($d["manga_name"]);
+    $manga_id      = $d["manga_id"];
+
+    $chapter_title      = $d["chapter_title"];
+    $chapter_page_title = $manga_name . " - Chapter " . $chapter_number;
+
+    $chapter_content   = explode("\n",$d["chapter_content"]);
+
+    $manga_name_url = url_name_replace($d["manga_name"]);
+    $manga_url = "/manga/" . $manga_name_url . "-" . $manga_id;
+
+    $chapter_url = "/manga/" . $manga_name_url . "/chapter-";
+
+    $cover_img = $d["manga_cover_img"];
+
+    //// breadcrumb /////////////////////////
+
+    $arr_breadcrumb = [];
+
+    array_push($arr_breadcrumb,[
+        "name" => $manga_name,
+        "item" => $manga_url 
+    ]);
+
+    array_push($arr_breadcrumb,[
+        "name" => "Chapter {$chapter_number}"
+    ]);
+
+    $HTML_breadcrumb = html::breadcrumb($arr_breadcrumb);
+
+    /////////////////////////////////////////////////
+
+$HTML_script = <<<HTML
+<script>
+var manga_id   = {$manga_id},
+chapter_id = {$chapter_id},
+cover_img = '/img/{$manga_id}/{$cover_img}';
+</script>
+HTML;
+
+    $description = "Đọc truyện tranh {$manga_name} chapter {$chapter_number} tiếng việt cập nhật mỗi ngày với ảnh đẹp chất lượng cao tại " . SITE_NAME;
+
+
+    $cur_url = cur_url_without_paras();
+    
+$this->meta = <<<HTML
+<meta property="og:title" content="{$chapter_page_title}" />
+<meta property="og:type" content="website">
+<meta property="og:url" content="{$cur_url}" />
+<meta property="og:description" content="{$description}" />
+<meta name="twitter:site" content="@Mangaloli" />
+<meta name="twitter:title" content="{$chapter_page_title}"/>
+<meta name="twitter:description" content="{$description}"/>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.3.1/dist/lazyload.min.js"></script>
+HTML;
+
+    $this->page_title = $chapter_page_title . " - " . SITE_NAME;
+    $this->description = $description;
+
+    include VIEW . "main/header2.phtml";
+?>
+    <div class="content">
+        <div class="row chapter-wrap-box">
+            <?= $HTML_breadcrumb ?>
+            <h1 class="chapter-title" ><?= $chapter_page_title ?></h1>
+            <?php 
+                if($chapter_title){
+                    
+echo <<<HTML
+<h2 class="chapter-sub-title">{$chapter_title}</h2>
+HTML;
+                } 
+            ?>
+            <br>
+            <div class="fb-share-button fb-share-button2" data-href="<?= $current_url ?>" data-layout="button_count" data-size="small"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=<?= $current_url ?>" class="fb-xfbml-parse-ignore">Chia sẻ</a></div>
+            <div class="report"><a title="Báo lỗi" href="javascript:void(0)">Báo lỗi</a></div>
+        </div>
+        <div class="chapters">
+            <?php
+                if(count($chapter_content) > 0){
+
+                    $i = 1;
+
+                    foreach ($chapter_content as $chapter_img) {
+
+                        $size = get_size($chapter_img);
+
+                        $attr = @$size[1];
+
+echo <<<HTML
+
+<div class="chapter-img shine"><img class="lazy_gau_truc" src="/lazy.png" alt="{$manga_name} - image {$i}" data-src="{$chapter_img}" ></div>
+HTML;
+
+                        $i++;
+                    }
+                }
+            ?>
+        </div>
+        <div class="row chapter-wrap-box">
+            <div class="ft-chapter">
+                <div class="inner clearfix">
+                    <?= $html_footer_btn ?>
+                </div>
+            </div>
+        </div>
+        <div class="row chapter-wrap-box clearfix">
+            <?php include VIEW . "main/comments.phtml" ?>
+        </div>
+    </div>
+<?php
+    include VIEW . "main/footer.phtml";
+?>
+</body>
+</html>

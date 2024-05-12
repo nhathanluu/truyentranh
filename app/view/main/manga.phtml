@@ -1,0 +1,380 @@
+<?php
+
+    $current_url = 'https://'.$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+    $site_name = SITE_NAME;
+
+    $data = $this->getData();
+
+    $m    = $data["manga"];
+    $c    = $data["chapters"];
+    $cmts = $data["comments"];
+
+    $manga_id      = $m["manga_id"];
+    $manga_name    = replace_quot($m["manga_name"]);
+    $manga_status  = $m["manga_status"] == 'f' ? "Đang tiến hành" : "Đã hoàn thành";
+    $manga_updated = $m["manga_updated"];
+    $manga_views   = max(0,$m["manga_views"]);
+    $manga_comments = max(0,$m["manga_comments"]);
+
+    $cover_img      = SITE_URL . "img/" . $manga_id  . "/" . $m["manga_cover_img"];
+
+    $tags          = $m["tags"];
+    $authors       = $m["authors"];
+
+    $manga_others_name = $m["manga_others_name"] == "" ? "Đang cập nhật..." : $m["manga_others_name"];
+    $manga_description = $m["manga_description"] == "" ? "Đang cập nhật..." : $m["manga_description"];
+
+    $manga_name_url = url_name_replace($m["manga_name"]);
+
+    //// breadcrumb /////////////////////////
+    
+    $arr_breadcrumb = [];
+
+    array_push($arr_breadcrumb,[
+        "name" => $manga_name
+    ]);
+
+    $HTML_breadcrumb = html::breadcrumb($arr_breadcrumb); 
+
+    //// tags ///////////////////////////////
+
+    $description_genre = "Updating...";
+
+    $HTML_tags = "";
+
+    if ($tags) :
+        
+        $description_genre = "";
+    
+        foreach ($tags as $tag){
+
+            $tag_name = $tag["tag_name"];
+            $u_tag_name = ucname($tag_name);
+            $url_tag_name = urlencode($u_tag_name);
+
+$HTML_tags .= <<<HTML
+<a title="{$u_tag_name}" href="/the-loai/{$url_tag_name}">{$u_tag_name}</a> / 
+HTML;
+
+            $description_genre .= $tag_name . ",";
+        }
+
+        $HTML_tags = trim($HTML_tags," / ");
+
+        $description_genre = trim($description_genre,",");
+
+    endif;
+
+    //// authors ////////////////////////////
+
+    $HTML_authors = "Updating...";
+    $string_author = "Updating...";
+
+    if($authors) :
+
+        $HTML_authors = "";
+        $string_author = "";
+
+        foreach ($authors as $author){
+
+            $author_name = $author["author_name"];
+            $u_author_name = ucname($author_name);
+
+            $url_author_name = urlencode($u_author_name);
+
+$HTML_authors .= <<<HTML
+<a title="{$u_author_name}" href="/author/{$url_author_name}">{$u_author_name}</a> / 
+HTML;
+
+            $string_author .= $u_author_name . ",";
+        }
+
+        $HTML_authors = trim($HTML_authors," / ");
+        $string_author = trim($string_author,",");
+    endif;
+
+    //// chapter btn ///////////////////////
+
+    $first_chapter_url  = "/";
+    $latest_chapter_url = "/";
+
+    if($c){
+
+        $first_chapter     = @$c[count($c) - 1];
+        $first_chapter_url = "/manga/{$manga_name_url}-{$manga_id}/chapter-" . $first_chapter["chapter_number"];
+
+        $latest_chapter     = @$c[0];
+        $latest_chapter_url = "/manga/{$manga_name_url}-{$manga_id}/chapter-" . $latest_chapter["chapter_number"];
+    }
+
+    //// chapter btn ///////////////////////
+
+$HTML_script = <<<HTML
+<script>
+var manga_id   = {$manga_id},
+chapter_id = 0
+</script>
+HTML;
+
+    ////////////////////////////////////////////
+
+    // $description = "Đọc truyện tranh {$manga_name} tiếng việt cập nhật mỗi ngày với ảnh đẹp chất lượng cao tại " . SITE_NAME;
+
+   
+
+    $page_title = $manga_name . " - " . SITE_NAME;
+
+    if (!empty($manga_description)) {
+        $description = substr($manga_description, 150);
+    } else {
+        $description = "Đọc truyện tranh {$manga_name} tiếng việt cập nhật mỗi ngày với ảnh đẹp chất lượng cao tại " . SITE_NAME;
+    }
+
+   
+
+    $cur_url = cur_url_without_paras();
+
+    $img_size = get_size($cover_img);
+
+    $s_img = "";
+    $meta_img = "";
+
+    if($img_size){
+$s_img = <<<EOT
+,
+"image": { 
+"@type": "ImageObject", 
+"url": "{$cover_img}", 
+"height": {$img_size[0]['h']}, 
+"width": {$img_size[0]['w']}
+}
+EOT;
+
+$meta_img = <<<HTML
+<meta name="twitter:image" content="{$cover_img}" />
+<meta property="og:image" content="{$cover_img}" />
+<meta property="og:image:width" content="{$img_size[0]['w']}" />
+<meta property="og:image:height" content="{$img_size[0]['h']}" />
+HTML;
+}
+
+    $logo_img = SITE_URL . "public/icons/mangaloli.png";
+
+$s1 ='<script type="application/ld+json">' . json_encode(json_decode(<<<EOT
+{
+"@context": "http://schema.org",
+"@type": "Article",
+"mainEntityOfPage": "{$cur_url}",
+"headline": "{$manga_name}",
+"datePublished": "",
+"dateModified": "",
+"description": "{$description}",
+"author": { 
+"@type": "Person", "name": "{$string_author}" 
+},
+"publisher": { 
+"@type": "Organization", 
+"name": "{$site_name}", 
+"logo": { 
+"@type": "ImageObject", 
+"url": "{$logo_img}", 
+"width": 300, 
+"height": 300 
+} 
+}
+{$s_img}
+}
+EOT)) . "</script>";
+
+    $s2 = "";
+
+    if($c){
+
+        $item_list = '';
+
+        for ($i=0; $i < min(10,count($c)); $i++){
+
+            $s_chapter_url = "/manga/" . $manga_name_url . "/chapter-" . $c[$i]["chapter_number"] . "/" .$c[$i]["chapter_id"];
+
+            $item_list .= <<<EOT
+                {"@type": "ListItem", "position": {$i}, "url": "{$s_chapter_url}" },
+            EOT;
+        }
+
+        $item_list = trim($item_list,",");
+
+        $s2 = '<script type="application/ld+json">' . json_encode(json_decode(<<<EOT
+            {
+                "@context": "http://schema.org",
+                "@type": "ItemList",
+                "itemListElement": [
+                    $item_list
+                ]
+            }
+        EOT)) . '</script>';
+    }
+
+$this->meta = <<<HTML
+<meta property="og:title" content="{$page_title}" />
+<meta property="og:type" content="website">
+<meta property="og:url" content="{$cur_url}" />
+<meta property="og:description" content="{$description}" />
+<meta name="twitter:site" content="@{$site_name}" />
+<meta name="twitter:title" content="{$page_title}"/>
+<meta name="twitter:description" content="{$description}"/>
+{$s1}
+{$s2}
+{$meta_img}
+HTML;
+    $this->description = $description;
+    $this->page_title  = $page_title;
+
+    include VIEW . "main/header.phtml";
+?>
+    <div class="content">
+        <div class="manga content-inner row clearfix">
+            <div class="breadcrumb-wrapper"><?=  $HTML_breadcrumb ?></div>
+            <h1 class="manga-title"><?= $manga_name ?></h1>
+            <div class="manga-body clearfix">
+                <div class="manga-img">
+                    <img alt="<?= $manga_name ?>" src="<?= $cover_img ?>"<?= @$img_size[1] ?>>
+                </div>
+                <div class="manga-detail">
+                    <ul class="clearfix">
+                        <li>
+                            <div class="md-title"><i class="fa fa-book"></i> Tên khác :</div>
+                            <div class="md-content"><?= $manga_others_name ?></div>
+                        </li>
+                        <li>
+                            <div class="md-title"><i class="fa fa-user"></i> Tác giả :</div>
+                            <div class="md-content"><?= $HTML_authors ?></div>
+                        </li>
+                        <li>
+                            <div class="md-title"><i class="fa fa-rss"></i> Tình trạng :</div>
+                            <div class="md-content"><?= $manga_status ?></div>
+                        </li>
+                        <li>
+                            <div class="md-title"><i class="fa fa-tags"></i> Thể loại :</div>
+                            <div class="md-content"><?= $HTML_tags ?></div>
+                        </li>
+                        <li>
+                            <div class="md-title"><i class="fa fa-clock"></i> Cập nhật :</div>
+                            <div class="md-content"><?= $manga_updated ?></div>
+                        </li>
+                        <li>
+                            <div class="md-title"><i class="fa fa-eye"></i> Lượt xem :</div>
+                            <div class="md-content"><?= max($manga_views,0) ?></div>
+                        </li>
+                        <li>
+                            <div class="md-title"><i class="fa fa-comment"></i> Lượt comment :</div>
+                            <div class="md-content"><?= max($manga_comments,0) ?></div>
+                        </li>
+                    </ul>
+                    <br>
+                    <div class="fb-share-button" data-href="<?= $current_url ?>" data-layout="button_count" data-size="small"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=<?= $current_url ?>" class="fb-xfbml-parse-ignore">Chia sẻ</a></div>
+                </div>
+                <div class="manga-actions">
+                    <ul class="clearfix">
+                        <li>
+                            <a href="<?= $first_chapter_url ?>" title="Đọc từ đầu">Đọc từ đầu</a>
+                        </li>
+                        <li>
+                            <a href="<?= $latest_chapter_url ?>" title="Chap mới nhất">Chap mới nhất</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" id="fav" title="Thích" style="">Thích</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="box-title _border" style="border-bottom: 2px solid;">
+                <h2><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 296.999 296.999" style="enable-background:new 0 0 296.999 296.999;" xml:space="preserve"><g><g><g><path d="M45.432,35.049c-0.008,0-0.017,0-0.025,0c-2.809,0-5.451,1.095-7.446,3.085c-2.017,2.012-3.128,4.691-3.128,7.543 v159.365c0,5.844,4.773,10.61,10.641,10.625c24.738,0.059,66.184,5.215,94.776,35.136V84.023c0-1.981-0.506-3.842-1.461-5.382 C115.322,40.849,70.226,35.107,45.432,35.049z"/> <path d="M262.167,205.042V45.676c0-2.852-1.111-5.531-3.128-7.543c-1.995-1.99-4.639-3.085-7.445-3.085c-0.009,0-0.018,0-0.026,0 c-24.793,0.059-69.889,5.801-93.357,43.593c-0.955,1.54-1.46,3.401-1.46,5.382v166.779 c28.592-29.921,70.038-35.077,94.776-35.136C257.394,215.651,262.167,210.885,262.167,205.042z"/> <path d="M286.373,71.801h-7.706v133.241c0,14.921-12.157,27.088-27.101,27.125c-20.983,0.05-55.581,4.153-80.084,27.344 c42.378-10.376,87.052-3.631,112.512,2.171c3.179,0.724,6.464-0.024,9.011-2.054c2.538-2.025,3.994-5.052,3.994-8.301V82.427 C297,76.568,292.232,71.801,286.373,71.801z"/> <path d="M18.332,205.042V71.801h-7.706C4.768,71.801,0,76.568,0,82.427v168.897c0,3.25,1.456,6.276,3.994,8.301 c2.545,2.029,5.827,2.78,9.011,2.054c25.46-5.803,70.135-12.547,112.511-2.171c-24.502-23.19-59.1-27.292-80.083-27.342 C30.49,232.13,18.332,219.963,18.332,205.042z"/></g></g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>Nội dung</h2>
+            </div>
+            <div class="manga-description">
+                <div class="inner"><?= $manga_description ?></div>
+            </div>
+            <div class="box-title _border" style="border-bottom: 2px solid;">
+                <h2><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="511.626px" height="511.626px" viewBox="0 0 511.626 511.626" style="enable-background:new 0 0 511.626 511.626;" xml:space="preserve"><g><g><path d="M63.953,164.453H9.135c-2.474,0-4.615,0.9-6.423,2.709C0.903,168.972,0,171.114,0,173.589v54.817 c0,2.473,0.903,4.619,2.712,6.424c1.809,1.803,3.949,2.712,6.423,2.712h54.818c2.474,0,4.615-0.905,6.423-2.712 c1.809-1.809,2.712-3.951,2.712-6.424v-54.817c0-2.475-0.904-4.617-2.712-6.427C68.568,165.356,66.427,164.453,63.953,164.453z"/><path d="M63.953,383.722H9.135c-2.474,0-4.615,0.896-6.423,2.707C0.903,388.238,0,390.378,0,392.854v54.82 c0,2.471,0.903,4.609,2.712,6.42c1.809,1.813,3.949,2.714,6.423,2.714h54.818c2.474,0,4.615-0.903,6.423-2.714 c1.809-1.807,2.712-3.949,2.712-6.42v-54.82c0-2.477-0.904-4.616-2.712-6.426C68.568,384.625,66.427,383.722,63.953,383.722z"/> <path d="M63.953,274.082H9.135c-2.474,0-4.615,0.91-6.423,2.714S0,280.749,0,283.22v54.815c0,2.478,0.903,4.62,2.712,6.427 c1.809,1.808,3.949,2.707,6.423,2.707h54.818c2.474,0,4.615-0.896,6.423-2.707c1.809-1.807,2.712-3.949,2.712-6.427V283.22 c0-2.471-0.904-4.613-2.712-6.424C68.568,274.989,66.427,274.082,63.953,274.082z"/><path d="M63.953,54.817H9.135c-2.474,0-4.615,0.903-6.423,2.712S0,61.479,0,63.953v54.817c0,2.475,0.903,4.615,2.712,6.424 s3.949,2.712,6.423,2.712h54.818c2.474,0,4.615-0.9,6.423-2.712c1.809-1.809,2.712-3.949,2.712-6.424V63.953 c0-2.475-0.904-4.615-2.712-6.424C68.568,55.725,66.427,54.817,63.953,54.817z"/><path d="M502.49,383.722H118.771c-2.474,0-4.615,0.896-6.423,2.707c-1.809,1.81-2.712,3.949-2.712,6.426v54.82 c0,2.471,0.903,4.609,2.712,6.42c1.809,1.813,3.946,2.714,6.423,2.714H502.49c2.478,0,4.616-0.903,6.427-2.714 c1.81-1.811,2.71-3.949,2.71-6.42v-54.82c0-2.477-0.903-4.616-2.71-6.426C507.106,384.625,504.967,383.722,502.49,383.722z"/> <path d="M502.49,274.082H118.771c-2.474,0-4.615,0.91-6.423,2.714s-2.712,3.953-2.712,6.424v54.815 c0,2.478,0.903,4.62,2.712,6.427c1.809,1.808,3.946,2.707,6.423,2.707H502.49c2.478,0,4.616-0.896,6.427-2.707 c1.81-1.807,2.71-3.949,2.71-6.427V283.22c0-2.471-0.903-4.613-2.71-6.424C507.106,274.992,504.967,274.082,502.49,274.082z"/> <path d="M508.917,57.529c-1.811-1.805-3.949-2.712-6.427-2.712H118.771c-2.474,0-4.615,0.903-6.423,2.712 s-2.712,3.949-2.712,6.424v54.817c0,2.475,0.903,4.615,2.712,6.424s3.946,2.712,6.423,2.712H502.49c2.478,0,4.616-0.9,6.427-2.712 c1.81-1.809,2.71-3.949,2.71-6.424V63.953C511.626,61.479,510.723,59.338,508.917,57.529z"/><path d="M502.49,164.453H118.771c-2.474,0-4.615,0.9-6.423,2.709c-1.809,1.81-2.712,3.952-2.712,6.427v54.817 c0,2.473,0.903,4.615,2.712,6.424c1.809,1.803,3.946,2.712,6.423,2.712H502.49c2.478,0,4.616-0.905,6.427-2.712 c1.81-1.809,2.71-3.951,2.71-6.424v-54.817c0-2.475-0.903-4.617-2.71-6.427C507.106,165.356,504.967,164.453,502.49,164.453z"/></g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>Danh sách chương</h2>
+            </div>
+            <div class="manga-chapters">
+                <ul class="clearfix">
+                    <li class="thead">
+                        <div class="col-60 ">Số chương</div>
+                        <div class="col-20 ct">Lượt xem</div>
+                        <div class="col-20 alr">Cập nhật</div>
+                    </li>
+                    <?php 
+
+                        $show_chapters_btn = "";
+
+                        if ($c) {
+
+                            $total_chapters = count($c);
+
+                            for ($i = 0; $i < min($total_chapters,20) ; $i++) :
+                            
+                                $chapter_id     = $c[$i]["chapter_id"];
+                                $chapter_views  = $c[$i]["chapter_views"];
+                                $chapter_number = $c[$i]["chapter_number"];
+                                $chapter_date_published = $c[$i]["chapter_date_published"];
+
+                                $chapter_title  = "Chapter " .$chapter_number . ($c[$i]["chapter_title"] != "" ? (" : " .  htmlentities($c[$i]["chapter_title"]) ) : "");
+
+                                $chapter_url = "/manga/{$manga_name_url}-{$manga_id}/chapter-" . $chapter_number;
+                                $chapter_updated = time_elapsed_string($chapter_date_published); 
+
+echo <<<HTML
+<li>
+<div class="col-60 "><a title="{$chapter_title}" href="{$chapter_url}">{$chapter_title}</a></div>
+<div class="col-20 ct">{$chapter_views}</div>
+<div class="col-20 alr">{$chapter_updated}</div>
+</li>
+HTML;
+
+                            endfor;
+
+                            for ($i = 20; $i < max(20,$total_chapters) ; $i++) :
+                            
+                                $chapter_id     = $c[$i]["chapter_id"];
+                                $chapter_views  = $c[$i]["chapter_views"];
+                                $chapter_number = $c[$i]["chapter_number"];
+                                $chapter_date_published = $c[$i]["chapter_date_published"];
+
+                                $chapter_title  = "Chapter " .$chapter_number . ($c[$i]["chapter_title"] != "" ? (" : " .  replace_quot($c[$i]["chapter_title"]) ) : "");
+
+                                $chapter_url = "/manga/{$manga_name_url}-{$manga_id}/chapter-" . $chapter_number;
+                                $chapter_updated = time_elapsed_string($chapter_date_published); 
+
+echo <<<HTML
+<li class="less">
+<div class="col-60 "><a title="{$chapter_title}" href="{$chapter_url}">{$chapter_title}</a></div>
+<div class="col-20 ct">{$chapter_views}</div>
+<div class="col-20 alr">{$chapter_updated}</div>
+</li>
+HTML;
+
+                            endfor;
+
+                            if ($total_chapters > 20){
+$show_chapters_btn = <<<HTML
+<div class="show-all-chapters"><a title="Show all chapters" href="javascript:void(0)">+ Show all</a></div>
+HTML;
+                            }
+
+                        }else{
+echo <<<HTML
+<li>Updating</li>
+HTML;
+                    }
+                    ?>
+                </ul>
+                <?= $show_chapters_btn ?>
+            </div>
+            <?php include VIEW . "main/comments.phtml" ?>
+        </div>
+    </div>
+<?php
+    include VIEW . "main/footer.phtml";
+?>
+</body>
+</html>

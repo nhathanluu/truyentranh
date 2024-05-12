@@ -1,0 +1,679 @@
+.header{
+    height: 60px;
+    background: #3f3567;
+    position: fixed;
+    z-index: 99999999;
+    width: 100%;
+    padding: 10px 0;
+}
+
+i,span{
+    vertical-align: middle;
+}
+
+.row{
+    margin: auto;
+    max-width: 1200px;
+}
+
+.content{
+    padding-top: 80px;
+    padding-bottom: 80px;
+    overflow: auto;
+}
+
+.nav{
+    float: left;
+    padding-top: 12px;
+}
+
+.nav ul li{
+    position: relative;
+    float: left;
+    margin-right: 20px;
+    padding-right: 20px;
+    border-right: 1px solid #ddd;
+}
+
+.nav ul li > a{
+    display: block;
+    color: #fff;
+}
+
+.nav ul li:last-child{
+    border: none;
+}
+
+.nav svg{
+    width: 12px;
+    height: 12px;
+    vertical-align: middle;
+    fill: #d4a6fd;
+    margin-left: 5px;
+}
+
+.dropdown {
+    position: absolute;
+    display: none;
+    left: -20px;
+}
+
+.dropdown a {
+    padding: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    width: 100%;
+}
+
+.dropdown .inner {
+    background: #fff;
+    border-radius: 4px;
+    margin-top: 20px;
+    box-shadow: 1px 0px 7px #bdbdbd;
+    overflow: hidden;
+}
+
+.nav ul li .dropdown a:hover  {
+    background: #bd3a80;
+    color: #fff;
+}
+
+.nav ul li:hover .dropdown{
+    display: block;
+}
+
+
+.dropdown a:last-child{
+    border-bottom: none;
+}
+
+.stats {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+
+.stats .d-item{
+    padding: 0 20px;
+    width: 25%;
+    float: left;
+}
+
+.stats .d-item .inner{
+    text-align: center;
+}
+
+.stats .d-title{
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.stats .d-content{
+    font-size: 24px;
+}
+
+.search-box{
+    width: 100%;
+    position: relative;
+}
+
+.search-box svg{
+    vertical-align: bottom;
+}
+
+.search-box input[type=text]{
+    width: 100%;
+    padding: 0 10px;
+    height: 32px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: #eee;
+}
+
+.search-box{
+    margin-bottom: 20px;
+}
+
+.search-box button{
+    height: 32px;
+    top: 0px;
+    position: absolute;
+    right: 0px;
+    width: 40px;
+}
+
+.manga-list{
+    margin: -10px;
+}
+
+.manga-tags {
+    position: relative;
+}
+
+.manga-list .cover-img img {
+    width: 100%;
+    vertical-align: bottom;
+    border-radius: 4px;
+}
+
+.manga-list .m-item{
+    width: 16.6666666667%;
+    float: left;
+    padding: 10px;
+    position: relative;
+}
+
+.manga-list .m-item .unpin{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+.manga-list .m-item .unpin a{
+    display: block;
+    padding: 10px;
+    background: #000;
+    border-radius: 0 0 0 4px;
+}
+
+.manga-list .m-item .unpin img{
+    width: 16px;
+    display: block;
+}
+
+.manga-list .m-item:nth-child(6n+1){
+    clear: both;
+}
+
+.manga-list .m-chaptes{
+    margin: 0 -5px;
+    margin-bottom: 10px;
+}
+
+.manga-list .m-chaptes img{
+    width: 16px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+    position: relative;
+    top: -1px;
+}
+
+.manga-list .m-chaptes a{
+    color: #fff;
+    padding: 10px 4px;
+    border-radius: 4px;
+    background: #bd3a80;
+    text-align: center;
+    font-size:14px;
+    display: block;
+}
+
+.manga-list .m-chaptes > div{
+    float: left;
+    padding: 0 5px;
+}
+
+.manga-list .m-chaptes .m-list-chapters {
+    width: 70%;
+}
+
+.manga-list .m-chaptes .m-manga-link {
+    width: 30%;
+}
+
+.manga-list .m-chaptes .m-manga-link img{
+    margin-right: 0;
+}
+
+.manga-list .m-chaptes .m-manga-link a{
+    background: #5cb85c;
+}
+
+.manga-list .cover-img {
+    margin-bottom: 10px;
+    border-radius: 4px;
+    height: 180px;
+    overflow: hidden;
+}
+
+.manga-list .manga-name{
+    overflow: hidden;
+    line-height: 24px;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    font-size: 16px;
+    -webkit-box-orient: vertical;
+}
+
+
+.edit-btn{
+    padding: 10px;
+    color: #fff;
+    border-radius: 2px;
+    cursor: pointer;
+    background: #5cb85c
+}
+
+.a-input-group input[type="text"], .a-input-group input[type="password"]{
+    height: 32px;
+    width: 100%;
+    padding: 0 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: #eee;
+}
+
+.a-input-group{
+    margin-bottom: 20px;
+}
+
+.a-input-group label{
+    margin-bottom: 10px;
+    font-size: 14px;
+    display: inline-block;
+}
+
+.a-input-group select{
+    width: 100%;
+    height: 32px;
+}
+
+.col-left{
+    float: left;
+    width: 300px
+}
+
+.col-right{
+    float: right;
+    width: calc(100% - 320px);
+}
+
+.manga-detail .cover-img{
+    padding: 20px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.drop-btn{
+    width: 100%;
+}
+
+.manga-detail .cover-img img{
+    display: block;
+    margin: auto;
+    border-radius: 4px;
+    max-width: 100%;
+}
+
+.chapter-item {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0px;
+    float: left;
+    position: relative;
+    width: 100%;
+}
+
+.chapter-item a {
+    float: left;
+}
+
+.chapter-item .delete-chapter{
+    float: right;
+}
+
+.chapter-item img{
+    width: 12px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+.p-btn{
+    width: 100%;
+    background: #49355b;
+    display: block;
+    padding: 10px;
+    border-radius: 2px;
+    color: #fff;
+}
+
+.p-btn span{
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.p-btn img {
+    width: 16px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+.box-title{
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    color: #bd3a80
+}
+
+.box-title span{
+    vertical-align: middle;
+}
+
+#chapter-content ,#from-url {
+    height: 400px;
+    line-height: 24px;
+    font-size: 14px;
+}
+
+#from-url{
+    height: 200px;
+}
+
+#manga-others-name{
+    height: 150px;
+}
+
+.add-new-chapter{
+    margin-bottom: 20px;
+}
+
+.add-new-chapter a{
+    display: inline-block;
+}
+
+.add-img{
+    padding: 20px;
+    border: 1px solid #664d65;
+    border-radius: 4px;
+}
+
+.add-img input[type="file"]{
+    width: 100%;
+}
+.a-input-group:last-child{
+    margin-bottom :0;
+}
+
+.a-member-item{
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+
+.a-member-item:last-child{
+    border-bottom: none;
+    margin: 0;
+    padding: 0;
+}
+
+.a-member-item .img-holder img{
+    border-radius: 4px;
+    width: 100%;
+}
+
+.a-member-item .img-holder {
+    float: left;
+    width: 60px;
+}
+
+.a-user-name{
+    margin-bottom: 10px;
+}
+
+.a-user-name span.nickname{
+    font-style: italic;
+    color:#bd3a80;
+}
+
+.a-user-name span.user-id{
+    color: #f77;
+}
+
+.a-member-item .a-user {
+    width: calc(100% - 80px);
+    float: right;
+}
+
+.a-user-btn a{
+    display: inline-block;
+    padding: 4px 10px;
+    background: #bd3a80;
+    color: #fff;
+    border-radius: 2px;
+    margin-right: 10px;
+}
+
+.a-user img{
+    width: 14px;
+    vertical-align: middle;
+    display: inline-block;
+    margin-right: 5px;
+    position: relative;
+    top: -1px;
+}
+
+.u-cmt-item{
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.u-cmt-item:last-child{
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border:none;
+}
+
+.u-img-holder {
+    float: left;
+    margin-right: 10px;
+    width: 60px;
+    height: 60px;
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+.u-img-holder{
+    height: auto;
+}
+
+.u-img-holder img {
+    width: 100%;
+}
+
+.u-manga-title {
+    margin-bottom: 5px;
+    position: relative;
+}
+
+.u-manga-title img{
+    width: 16px;
+}
+
+.u-cmt-date {
+    font-size: 12px;
+    text-align: right;
+    font-style: italic;
+}
+
+.u-manga-title a:first-child{
+    padding-right: 30px;
+}
+
+
+.delete-cmt{
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+
+.tag-list .col-1{
+    width: 30%;
+    float :left;
+}
+
+.tag-list .col-2{
+    width: 23.3333333333%;
+    float: left;
+}
+
+
+.tag-list ul li{
+    float: left;
+}
+
+.tag-list ul li {
+    width: 100%;
+    position: relative;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.tag-list ul li:nth-child(2n + 1){
+    background: #f2f2f2;
+}
+
+.tag-list ul li.thead{
+    background: #3f3567;
+    color: #fff;
+}
+
+.tag-list ul li span{
+
+}
+
+.tag-list ul li img,.rp-item .action img{
+    width: 14px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+.delete-tag{
+    position: absolute;
+    right: 10px;
+    top: 7px;
+}
+
+.rp-item{
+    padding: 10px 0px;
+    border-radius: 4px;
+
+}
+
+.rp-item .col.action{
+    text-align: right;
+    width: 10%;
+}
+
+.rp-content{
+    overflow-wrap: break-word;
+}
+
+.rp-item:nth-child(2n+2){
+    background: #f2f2f2;
+}
+
+.rp-item .col{
+    width: 20%;
+    float: left;
+    padding: 0 10px;
+}
+
+.rp-item .col.rp-content{
+    width: 30%;
+    min-height: 1px;
+}
+
+.rp-item .rp-item.rp-header{
+    text-align: center;
+}
+
+.rp-item  .rp-img-holder{
+    float: left;
+    width: 60px;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-right: 10px;
+    height: 60px;
+}
+
+.rp-item .rp-img-holder img{
+    width: 100%;
+}
+
+.rp-item .rp-title a{
+    font-size: 14px;
+}
+
+.fa.f-ex-link{
+    color: #bd3a80
+}
+
+.fa.f-remove{
+    color: #f66
+}
+
+.fa.f-edit{
+    color: #10a810;
+}
+
+.rp-item .rp-time{
+    width: 100%;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.rp-item .rp-chapter a{
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 10px;
+    position: relative;
+}
+
+.rp-item .rp-chapter img{
+    width: 16px;
+    vertical-align: middle;
+}
+
+#crawl-content{
+    height: 300px;
+}
+
+.select-box select{
+    width: 100%;
+    height: 36px;
+}
+
+.manga-sort-by{
+    margin-bottom: 20px;
+}
+
+.footer {
+    text-align: center;
+    padding: 20px 0;
+    background: #222;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    color: #fff;
+}
+
+
+.dropdown a {
+    -webkit-transition: all 2s ease;
+    -moz-transition: all .2s ease;
+    -ms-transition: all .2s ease;
+    -o-transition: all .2s ease;
+    transition: all .2s ease;
+}
+
+.news p {
+    margin-bottom: 10px
+}

@@ -1,0 +1,55 @@
+<?php
+    $d = $this->getData();
+
+    $total_manga    = $d["manga"];
+    $total_chapters = $d["chapters"];
+    $total_users    = $d["users"];
+    $total_repports = $d["reports"];
+
+    ///////////////////////////////////////////
+
+    $this->page_title = "Bảng điều khiển";
+
+    include(VIEW . "admin/header.phtml");
+?>
+    <div class="content">
+        <div class="row">
+            <div class="stats clearfix">
+                <div class="d-item">
+                    <div class="inner">
+                        <div class="d-title">Số truyện</div>
+                        <div class="d-content"><?= $total_manga ?></div>
+                    </div>
+                </div>
+                <div class="d-item">
+                    <div class="inner">
+                        <div class="d-title">Số chương</div>
+                        <div class="d-content"><?= $total_chapters ?></div>
+                    </div>
+                </div>
+                <div class="d-item">
+                    <div class="inner">
+                        <div class="d-title">Thành viên</div>
+                        <div class="d-content"><?= $total_users ?></div>
+                    </div>
+                </div>
+                <div class="d-item">
+                    <div class="inner">
+                        <div class="d-title">Báo lỗi</div>
+                        <div class="d-content"><?= $total_repports ?></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="news">
+                <p>Truyện đã đăng ngày hôm nay : 0 </p>
+                <p>Chương mới : 0 </p>
+                <p>Người dùng mới : 0 </p>
+            </div>
+        </div>
+    </div>
+    <?php
+        include(VIEW . "admin/footer.phtml");
+    ?>
+</body>
+</html>

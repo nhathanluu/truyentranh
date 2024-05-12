@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Upload - Devilchan</title>
+	<link rel="stylesheet" type="text/css" href="<?php echo SITE_URL . "public/css/reset.css"; ?>">
+	<link rel="stylesheet" type="text/css" href="<?php echo SITE_URL . "public/css/user.css"; ?>">
+
+</head>
+<body>
+	<div class="header">
+		<div class="row">
+			<div class="nav clearfix">
+				<ul>
+					<li><a href="#">Home</a></li>
+					<li><a href="#">Upload</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="content">
+		<div class="row upload">
+			<div class="upload-box">
+				<div class="choose clearfix">
+					<div class="file-submit">
+						<label for="file-upload">Choose image here</label>
+						<input type="file" name="file" id="file-upload">
+					</div>
+					<div class="url-submit">
+						<input type="text" name="url" id="url-submit" placeholder="Paste image url here">
+					</div>
+				</div>
+			</div>
+			<div class="upload-note">
+				<ul>
+					<li>- Image name should not contain HTML code and it is more than 2 and less than 50 characters</li>
+					<li>- You do not need to fill your tags before upload . You can do it later</li>
+					<li>- More rules , <a href="/upload-rules" class="fc1-v2">click here</a>!!</li>
+				</ul>
+			</div>
+			<div class="upload-message"></div>
+			<div class="upload-body clearfix ur">
+				<div class="upload-box">
+					<div class="img-preview"></div>
+					<div class="fill-box">
+			            <div class="f-row tag">
+			            	<div class="tags-holder"></div
+			           		><div class="tag-input" style="position: relative;display: inline-block;">
+			                	<input type="text" placeholder="Tags" class="i-tags input-ac"/>
+			                </div>
+			                <input type="hidden" value="" class="real-tags-input" />
+			            </div>
+			            <div class="f-row img-name">
+							<input type="text" name="name" placeholder="Img name">
+
+						</div>
+						<div class="f-row upload-btn">
+							<a href="#" class="bgc1">Upload</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="/public/js/devilchan.js"></script>
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+	<script type="text/javascript">
+
+		var typingTimer,
+        	doneTypingInterval = 500;
+
+        var html = {
+        	img : `<div class="img-holder">
+
+        		</div>` ,
+        	err_message : function(mess){
+        		return `<div class="message-box"><span class="error">` + mess + `</span></div>`;
+        	},
+        	similar : function(img){
+        		return `<div class="img">
+							<a href="` +  img.url + `"><img src="` + img.src + `"></a>
+						</div>`;
+        	},
+        	upload_box: function(){
+        		return `
+        		<div class="upload-box">
+					<div class="img-preview"></div>
+					<div class="fill-box">
+			            <div class="f-row tag">
+			            	<div class="tags-holder"></div
+			           		><div class="tag-input" style="position: relative;display: inline-block;">
+			                	<input type="text" placeholder="Tags" class="i-tags input-ac"/>
+			                </div>
+			                <input type="hidden" value="" class="real-tags-input" />
+			            </div>
+			            <div class="f-row img-name">
+							<input type="text" name="name" placeholder="Img name">
+						</div>
+						<div class="f-row upload-btn">
+							<a href="#" class="bgc1">Upload</a>
+						</div>
+					</div>
+				</div>`;
+        	}
+        }
+
+        var upload = (function(){
+
+        	function index(o){
+
+        		var _this = this;
+
+        		this.content_upload = $(".upload-body");
+        		this.upload_form = dom.createStr(html.upload_box())[1];
+        		this.img_preview = this.upload_form.querySelector(".img-preview");
+        		this.upload_btn = this.upload_form.querySelector(".upload-btn > a");
+        		this.o = o;
+
+        		this.createIMG();
+
+        		new IMGsLoaded(this.upload_form,{
+        			always: function(){
+        				_this.form();
+        			}
+        		})
+        	}
+
+        	index.prototype.createIMG = function(){
+
+        		var img = document.createElement('img');
+        		img.src = "/tmp/" + this.o.img_src;
+        		this.img_preview.append(img);
+        	}
+
+        	index.prototype.done = function(rs){
+
+        		var _this = this;
+
+        		if (rs.error == true){
+
+        			$(".upload-message").html(
+        				html.err_message(rs.message)
+        			);
+
+        		}else{
+        			
+        		}
+        	}
+
+        	index.prototype.form = function(){
+
+        		var _this = this;
+
+        		this.content_upload.html(this.upload_form);
+
+        		var ti =  new tags_input({
+					parent : _this.upload_form.querySelector(".tag")
+				});
+
+				autocomplete({
+					selector: _this.upload_form.querySelector(".input-ac"),
+					parent : _this.upload_form.querySelector(".tag-input"),
+					source: function(request,response){
+		                ajax({
+		                    url  : "/suggest",
+		                    type : "post",
+		                    data :{
+		                        action :"auto_complete",
+		                        request  : request
+		                    },
+		                    success : function (rs){
+		                        var r = rs.split("|");
+
+		                        if (r.length > 0){
+		                        	response(r);
+		                       } 
+		                    } 
+		                });
+		            },
+		            onSelect:function(e,v){
+		            	
+		            }
+				});
+
+				$(this.upload_btn).on("click",function(e){
+
+					e.preventDefault();
+
+					var img_name_input = _this.upload_form.querySelector(".img-name > input");
+
+					var tags = ti.real_tags_input.value,
+						img_name =  img_name_input.value;
+
+					var o = {
+						tags : tags,
+						img_name : img_name,
+						id : _this.o.id
+					}
+
+					$.ajax({
+						url : "/image/user-upload",
+						type : "post",
+						dataType : "json",
+						data : o,
+						success : function(rs){
+							
+							_this.done(rs);
+						}
+					})
+				});
+        	}
+
+        	index.prototype.error = function(el){
+        		el.style.border = "1px solid #b53434";
+        		$(el).on("click",function(){
+        			$(this).attr("style","");
+        		})
+        	}
+
+        	index.prototype.upload_form = function(){
+        		this.content_upload.html(html.upload_box)
+        	};
+
+        	return index;
+        }());
+
+		$("#url-submit").on("input",function(){
+
+			clearTimeout(typingTimer);
+
+	        var _this = this,
+	        	val = $(this).val();
+
+	        if(val){
+
+	            typingTimer = setTimeout(function(){
+	             
+	                $.ajax({
+	                	url:"/image/similar?u=" + val,
+	                	method:"get",
+	                	dataType:"json",
+	                	success:function(rs){
+
+	                		$(_this).val("");
+
+	                		var h = "";
+
+	                		if(rs.error == true){
+
+	                			h += html.err_message(rs.message);
+
+	                			if(rs.img){
+	                				h += html.similar(rs.img);
+	                			}
+
+	                			$(".upload-message").html(h);
+
+	                		}else{
+	                			
+	                			$(".upload-message").html("");
+
+	                			new upload({
+						        	img_src : rs.thumb,
+						        	id : rs.upload_id
+						        });
+	                		}
+	                	}
+	                })
+
+	            }, doneTypingInterval);
+	        }
+		})
+	</script>
+</body>
+</html>

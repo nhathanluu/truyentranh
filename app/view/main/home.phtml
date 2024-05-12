@@ -1,0 +1,265 @@
+<?php
+$d = $this->getData();
+
+$pagi = $d["pagi"];
+
+$new_cmts   = $d["new_cmts"];
+$manga_list = $d["manga_list"];
+$rank       = $d["rank"];
+$pins       = $d["pin"];
+
+/////////////////////////////////////////////
+
+$description = "Đọc truyện tranh Online . Truyện tranh manga tiếng việt cập nhật mỗi ngày tại " . SITE_NAME;
+
+$page_title = "Đọc truyện tranh Online - " . SITE_NAME;
+
+$site = SITE_URL;
+
+$this->meta = <<<HTML
+<meta property="og:title" content="{$page_title}" />
+<meta property="og:type" content="website">
+<meta property="og:url" content="{$site}" />
+<meta property="og:description" content="{$description}" />
+<meta name="twitter:site" content="@{$site}" />
+<meta name="twitter:title" content="{$page_title}"/>
+<meta name="twitter:description" content="{$description}"/>
+<script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/js/splide.min.js"></script>
+HTML;
+
+$this->description = $description;
+$this->page_title  = $page_title;
+
+include VIEW . "main/header2.phtml";
+?>
+<div class="content">
+    <div class="row clearfix content-inner">
+        <div class="page-h1" style="display: none">
+            <h1><?= SITE_NAME ?> - Đọc truyện tranh online</h1>
+        </div>
+        <?php
+
+        $html_pin = "";
+
+        if ($pins) {
+
+            foreach ($pins as $pin) {
+
+                $p_manga_id        = $pin["manga_id"];
+                $p_manga_name      = replace_quot($pin["manga_name"]);
+                $p_manga_cover_img = SITE_URL . "img/" . $p_manga_id . "/" . $pin["manga_cover_img"];
+
+                $p_manga_name_url = url_name_replace($p_manga_name);
+
+                $p_manga_url = "/manga/" . $p_manga_name_url . "-" . $p_manga_id;
+
+                $p_manga_chapters = @json_decode($pin["manga_chapters"], true)[0];
+
+                $p_li_chapter = "";
+
+                $p_sizes = @get_size($p_manga_cover_img)[1];
+
+                if ($p_manga_chapters) {
+
+                    $p_chapter_id             = $p_manga_chapters["chapter_id"];
+                    $p_chapter_number         = $p_manga_chapters["chapter_number"];
+
+                    $p_chapter_url   = "/manga/{$p_manga_name_url}-{$p_manga_id}/chapter-" . $p_chapter_number;
+                    $p_chapter_title = "Chapter " . $p_chapter_number;
+
+                    $p_li_chapter = <<<HTML
+<div class="g-chapter"><a title="{$p_chapter_title}" href="{$p_chapter_url}">{$p_chapter_title}</a></div>
+HTML;
+                } else {
+
+                    $p_li_chapter = <<<HTML
+    <div class="g-chapter">Updating...</div>
+HTML;
+                }
+
+                $html_pin .= <<<HTML
+<li class="splide__slide">
+    <div class="g-item">
+        <a href="{$p_manga_url}" title="{$p_manga_name}"><img src="{$p_manga_cover_img}" alt="{$p_manga_name}"{$p_sizes}></a>
+        <div class="g-caption">
+            <div class="g-title">
+                <a href="$p_manga_url" title="{$p_manga_name}">{$p_manga_name}</a>
+            </div>
+            {$p_li_chapter}
+        </div>
+    </div>
+</li>
+HTML;
+            }
+
+
+            echo <<<HTML
+<div class="box-title">
+    <h2>Truyện đề cử <i class="fa fa-angle-right"></i></h2>
+</div>
+<div class="slider">
+    <div class="splide">
+        <div class="splide__track">
+            <ul class="splide__list">
+                {$html_pin}
+            </ul>
+        </div>
+    </div>
+</div>
+HTML;
+            $this->more_script = <<<HTML
+<script>
+    new Splide( '.splide', {
+    perPage : 5,
+    perMove: 1,
+    cover   : true,
+    pagination : false,
+    autoplay : true,
+    interval : 2000,
+    type   : (document.getElementsByClassName("g-item").length >= 5) ? 'loop' : "",
+    breakpoints: {
+        1100 : {
+            perPage :4
+        },
+        900: {
+            perPage: 3,
+        },
+        700: {
+            perPage: 2,
+            focus    : false
+        },
+        400: {
+            perPage: 2,
+        }
+    }
+} ).mount();
+</script>
+HTML;
+        }
+
+        ?>
+        <div class="col-left">
+            <div class="box-title">
+                <h2>Truyện mới cập nhật <i class="fa fa-angle-right"></i></h2>
+            </div>
+            <?php
+            include VIEW . "main/manga_list.phtml";
+            ?>
+            <div class="more-manga"><a href="/moi-cap-nhat" title="Xem tất cả">Xem tất cả</a></div>
+        </div>
+        <div class="col-right">
+            <div id="rp-box-title"></div>
+            <div id="rp-history"></div>
+            <div class="box-title">
+                <h2>Xem nhiều <i class="fa fa-angle-right"></i></h2>
+            </div>
+            <div class="ranking">
+                <ul class="clearfix">
+                    <?php
+
+                    if ($rank) {
+
+                        foreach ($rank as $r) {
+
+                            $r_manga_id        = $r["manga_id"];
+                            $r_manga_name      = replace_quot($r["manga_name"]);
+                            $r_manga_cover_img = SITE_URL . "img/" . $r_manga_id . "/" . $r["manga_cover_img"];
+                            $r_manga_views     = $r["manga_views"];
+                            $r_manga_name_url = url_name_replace($r["manga_name"]);
+
+                            $r_manga_url = "/manga/" . $r_manga_name_url . "-" . $r_manga_id;
+
+                            $r_manga_chapters = @json_decode($r["manga_chapters"], true)[0];
+
+                            $r_li = "";
+
+                            $r_size = @get_size($r_manga_cover_img)[1];
+
+                            if ($r_manga_chapters) {
+
+
+                                $r_chapter_id             = $r_manga_chapters["chapter_id"];
+                                $r_chapter_number         = $r_manga_chapters["chapter_number"];
+
+                                $r_chapter_url = "/manga/{$r_manga_name_url}-{$r_manga_id}/chapter-" . $r_chapter_number;
+                                $r_chapter_title = "Chapter " . $r_chapter_number;
+
+                                $r_li = <<<HTML
+<div class="r-chapter"><a title="{$r_chapter_title}" href="{$r_chapter_url}">{$r_chapter_title}</a><div class="r-views"><img alt="views" src="/public/icons/views.svg" width="16" height="16">{$r_manga_views}</div></div>
+HTML;
+                            }
+
+                            echo <<<HTML
+<li>
+    <div class="r-img">
+        <a title="{$r_manga_name}" href="{$r_manga_url}">
+            <img src="{$r_manga_cover_img}" alt="{$r_manga_name}"{$r_size}>
+        </a>
+    </div>
+    <div class="r-title">
+        <a title="{$r_manga_name}" href="{$r_manga_url}">{$r_manga_name}</a>
+    </div>
+    {$r_li}
+</li>
+HTML;
+                        }
+                    }
+
+                    ?>
+                </ul>
+            </div>
+            <div class="box-title">
+                <h2>Bình luận mới <i class="fa fa-angle-right"></i></h2>
+            </div>
+            <div class="new-comments">
+                <div class="inner">
+                    <?php
+
+                    foreach ($new_cmts as $cmt) {
+
+                        $cmt_id             = $cmt["cmt_id"];
+                        $nickname           = $cmt["nickname"];
+                        $cmt_content        = $cmt["cmt_content"];
+                        $cmt_date_published = time_elapsed_string($cmt["cmt_date_published"]);
+                        $cmt_chapter_number = $cmt["chapter_number"];
+
+                        $cmt_manga_id   = $cmt["manga_id"];
+                        $cmt_manga_name = $cmt["manga_name"];
+                        $cmt_manga_url  = "/manga/" . url_name_replace($cmt_manga_name) . "-" . $cmt_manga_id;
+
+                        $user_avatar = $cmt["avatar"];
+
+                        $user_avatar = $cmt["avatar"] == "" ? TH_PUBLIC . "icons/default.jpg" : $cmt["avatar"];
+
+                        $HTML_chapter_number = "";
+
+                        if ($cmt_chapter_number) {
+                            $HTML_chapter_number = '<span class="cmt-chapter">Chapter ' . $cmt_chapter_number . '</span>';
+                        }
+                        echo <<<HTML
+<div class="cmt-item clearfix">
+    <div class="cmt-manga"><a href="{$cmt_manga_url}" title="{$cmt_manga_name}">{$cmt_manga_name}</a></div>
+    <div class="avatar">
+        <img src="{$user_avatar}" alt="{$nickname}" width="100" height="100">
+    </div>
+    <p class="cmt-user-name">
+        <span class="nickname">{$nickname}</span>
+        {$HTML_chapter_number}
+    </p>
+    <p class="cmt-content">{$cmt_content}</p>
+    <p class="cmt-time"><i>$cmt_date_published</i></p>
+</div>
+HTML;
+                    }
+                    ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php
+include VIEW . "main/footer.phtml";
+?>
+</body>
+
+</html>

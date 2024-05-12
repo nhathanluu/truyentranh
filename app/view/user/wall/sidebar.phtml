@@ -1,0 +1,43 @@
+	<?php
+		$act1 = "";
+		$act2 = "";
+		$act3 = "";
+		$act4 = "";
+		$act5 = "";
+
+		$_cl = 'class="act"';
+
+		$action = @$d["action"];
+
+		if($action == "dashboard"){
+
+			$act1 = $_cl;
+
+		}elseif($action == "profile"){
+
+			$act2 = $_cl;
+
+		}elseif ($action == "favorites"){
+
+			$act3 = $_cl;
+
+		}elseif ($action == "comments"){
+
+			$act4 = $_cl;
+
+		}else{
+
+			$act5 = $_cl;
+		}
+
+	?>
+	<div class="user-sidebar">
+		<ul>
+			<li <?= $act1 ?>><a href="/member/dashboard">Bảng điều khiển</a></li>
+			<li <?= $act2 ?>><a href="/member/profile">Thông tin cá nhân</a></li>
+			<li <?= $act3 ?>><a href="/member/favorites">Truyện đã thích</a></li>
+			<li <?= $act4 ?>><a href="/member/comments">Bình luận</a></li>
+			<li <?= $act5 ?>><a href="/member/change-password">Đổi mật khẩu</a></li>
+			<li><a href="/logout">Đăng xuất</a></li>
+		</ul>
+	</div>

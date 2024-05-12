@@ -1,0 +1,81 @@
+<?php
+
+    $manga = $this->getData();
+
+    $arr_breadcrumb = [];
+
+    array_push($arr_breadcrumb,[
+        "name" => "Ghim truyện"
+    ]);
+
+    $HTML_breadcrumb = dashboard_bc($arr_breadcrumb);
+
+    $page_title = "Ghim truyện";
+
+    $this->page_title = $page_title;
+
+    include(VIEW . "admin/header.phtml");
+?>
+    <div class="content">
+        <div class="row">
+            <?= $HTML_breadcrumb ?>
+            <div class="box-title">
+                <h1><span><?= $page_title ?></span> <i class="fa fa-angle-right"></i></h1>
+            </div>
+            <div class="a-input-group">
+                <label>ID truyện : </label>
+                <div class="manga-authors">
+                      <input type="text" id="manga-id" name="manga-id">
+                </div>
+            </div>
+             <div class="a-input-group" align="right">
+                <button class="edit-btn" id="pin-manga">Ghim</button>
+            </div>
+            <div class="manga-list clearfix">
+                <?php
+                    
+                    if($manga){
+
+                        $html = '';
+
+                        foreach ($manga as $m_item) {
+
+                            $manga_id   = $m_item["manga_id"];
+                            $manga_name = replace_quot($m_item["manga_name"]);
+                            $cover_img  = SITE_URL . "img/" . $manga_id . "/" .$m_item["manga_cover_img"];
+                            $link_manga = "/manga/" . url_name_replace($manga_name) . "-" . $manga_id;
+
+
+$html .= <<<HTML
+<div class="m-item">
+<div class="unpin"><a href="javascript:void(0)" data-manga-id="{$manga_id}"><img alt="Unpin" src="/public/icons/x.svg"></a></div>
+<div class="cover-img"><a href="/admin/manga/{$manga_id}" title="{$manga_name}"><img src="{$cover_img}" alt="{$manga_name}"></a></div>
+<div class="m-chaptes clearfix">
+<div class="m-list-chapters">
+<a href="/admin/manga/chapters/{$manga_id}" title="Chapters">
+    <img src="/public/icons/list.svg" alt="chapters">Chapters
+</a>
+</div>
+<div class="m-manga-link">
+<a href="{$link_manga}" title="link to manga" target="_blank">
+    <i class="fa fa-external-link" aria-hidden="true"></i>
+</a>
+</div>
+</div>
+<div class="manga-name"> <a href="/admin/manga/{$manga_id}">{$manga_name}</a> </div>
+</div>
+HTML;
+                        }
+
+                        echo $html;
+                    }
+                ?>
+            </div>
+
+        </div>
+    </div>
+<?php
+    include(VIEW . "admin/footer.phtml");
+?>
+</body>
+</html>

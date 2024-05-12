@@ -1,0 +1,282 @@
+<?php
+    $d = $this->getData();
+
+    $pagi = $d["pagi"];
+    $page = @$d["page"];
+    
+    $action     = $d["action"];
+    $manga_list = $d["manga_list"];
+    
+    // echo '<pre>';
+    // var_dump($manga_list);die;
+
+    $cur_url = $_SERVER['REQUEST_SCHEME'] .'://'. $_SERVER['HTTP_HOST'] 
+     . explode('?', $_SERVER['REQUEST_URI'], 2)[0];
+    
+    $light1 = "";
+    $light2 = "";
+    $light3 = "";
+
+    $a1 = "";
+    $a2 = "";
+    $a3 = "";
+
+    $genre_description = "";
+
+    $arr_breadcrumb = [];
+
+    $open_light = 'class="act"'; 
+
+    $description = " - Đọc truyện tranh online, truyện manga cập nhật liên tục mỗi ngày với hình ảnh chất lượng cao";
+
+    $url_path = explode('?', $_SERVER['REQUEST_URI'], 2)[0];
+
+    $url_filter_1 = $url_path;
+    $url_filter_2 = $url_path;
+
+    $url_filter_1 .= "?sort=1";
+    $url_filter_2 .= "?sort=2";
+
+    $sort_by = @$_GET["sort"];
+
+    $act_sort_1 = "";
+    $act_sort_2 = "";
+    $act_sort_3 = "";
+
+    if($sort_by == "1"){
+
+        $act_sort_1 = $open_light;
+        $sort_title = " - Xem nhiều";
+
+    }elseif ($sort_by == "2"){
+
+        $act_sort_2 = $open_light;
+        $sort_title = " - Chapter nhiều nhất";
+
+    }else{
+
+        $act_sort_3 = $open_light;
+        $sort_title = "";
+    }
+
+    $par_sort = "";
+
+    if(@$_GET["sort"]){
+        $par_sort = "?sort=" . $_GET["sort"];
+    }
+
+    if($action == "genre"){
+
+        $genre           = ucname(replace_quot($d["tag_name"]));
+        $p_title         = "Genre : " . $d["tag_name"];
+        $status          = @$d["status"];
+
+        $url_genre = urlencode($d["tag_name"]);
+
+        if($status == "ongoing"){
+
+            $a2 = $cur_url;
+            $a3 = "/the-loai/{$url_genre}/da-hoan-thanh";
+
+            $light2  = $open_light;
+
+            $description =   $genre . " đang tiến hành" . $sort_title . $description;
+
+            $v_status = " đang tiến hành";
+
+        }elseif($status == "completed"){
+
+
+            $a2 = "/the-loai/{$url_genre}/dang-tien-hanh";
+            $a3 = $cur_url;
+
+            $light3 = $open_light;
+
+            $description =  $genre  . " đã hoàn thành" . $sort_title . $description;
+
+            $v_status = " đã hoàn thành";
+
+        }else{
+
+            $a2 = "/the-loai/{$url_genre}/dang-tien-hanh";
+            $a3 = "/the-loai/{$url_genre}/da-hoan-thanh";
+
+            $light1 = $open_light;
+
+            $description = $genre . $sort_title . $description;
+
+            $v_status = "";
+        }
+
+        $description = "Truyện thể loại " . $description;
+
+        array_push($arr_breadcrumb,[
+            "name" => "Thể loại",
+            "item" => "/the-loai"
+        ]);
+
+        array_push($arr_breadcrumb,[
+            "name" => $genre,
+            "item" => "/the-loai/" . $url_genre
+        ]);
+
+        if($status){
+            array_push($arr_breadcrumb,[
+                "name" => trim(ucfirst($v_status))
+            ]);
+        }
+
+        $a1 = "/the-loai/{$url_genre}";
+
+        $p_title = "Truyện thể loại : " . $genre . $v_status;
+        $HTML_h1 = "Truyện thể loại : " . $genre . $v_status;
+
+        if($page > 1){
+            
+            $p_title .= " | Page " . $page;
+            
+        }else{
+
+            $genre_description = @$d["tag_description"];
+        }
+
+        $_selected  = "_" . clean123($d["tag_name"]);
+        $_selected2 = "_" . $_selected;
+
+        $$_selected  = 'selected="selected"';
+        $$_selected2 = 'class="selected"';
+
+    }elseif($action == "status"){
+
+        $status = $d["status"];
+
+        if ($status == "ongoing"){
+
+            $a2 = $cur_url;
+            $a3 = "/da-hoan-thanh";
+
+            $light2  = $open_light;
+
+            $description = "Truyện đang tiến hành" . $sort_title . $description;
+
+            $v_status = "Truyện đang tiến hành";
+
+        }else{
+
+            $a2 = "/dang-tien-hanh";
+            $a3 = $cur_url;
+
+            $light3 = $open_light;
+
+            $description = "Truyện đã hoàn thành" . $sort_title . $description;
+
+            $v_status = "Truyện đã hoàn thành";
+        }
+        $u_status = $v_status;
+        $HTML_h1 = "{$u_status}";
+        $p_title = "{$u_status}";
+        array_push($arr_breadcrumb,[
+            "name" => $u_status
+        ]);
+        if($page > 1){
+            $p_title .= " | Page " . $page;
+        }
+        $a1 = "/the-loai";
+    }else{
+        array_push($arr_breadcrumb,[
+            "name" => "Thể loại"
+        ]);
+        $HTML_h1 = "Tìm truyện tranh";
+        $p_title = "Tìm truyện tranh";
+        $a1 = "/the-loai";
+        $a2 = "/dang-tien-hanh";
+        $a3 = "/da-hoan-thanh";
+        $light1 = $open_light;
+        $description = "Tìm truyện tranh" . $sort_title . $description;
+        if($page > 1){
+            $p_title .= " | Page " . $page;
+        }
+    }
+    $a1 .= $par_sort;
+    $a2 .= $par_sort;
+    $a3 .= $par_sort;
+    $p_title = $p_title . $sort_title .  " - " . SITE_NAME;
+    $this->description =  $description;
+    $cur_url = cur_url_without_paras();
+$this->meta = <<<HTML
+<meta property="og:title" content="{$p_title}" />
+<meta property="og:type" content="website">
+<meta property="og:url" content="{$cur_url}" />
+<meta property="og:description" content="{$description}" />
+<meta name="twitter:site" content="@Mangaloli" />
+<meta name="twitter:title" content="{$p_title}"/>
+<meta name="twitter:description" content="{$description}"/>
+HTML;
+
+    $HTML_breadcrumb = html::breadcrumb($arr_breadcrumb); 
+    $this->page_title = $p_title;
+
+    include VIEW . "main/header.phtml";
+?>
+    
+
+
+    <div class="content">
+        <div class="row content-inner">
+            <div class="genre-content clearfix">
+                <div class="breadcrumb-wrapper"><?=  $HTML_breadcrumb ?></div>
+                <div class="col-left">
+                    <div class="genre-title"><h1><?= $HTML_h1 . $sort_title ?></h1></div>
+<?php
+if ($genre_description) {
+echo <<<HTML
+<div class="genre-descriton">{$genre_description}</div>
+HTML;
+}
+?>
+                    <div class="manga-actions mg0">
+                        <ul class="clearfix">
+                            <li>
+                                <a href="<?= $a1 ?>" <?= $light1 ?> >Tất cả</a>
+                            </li>
+                            <li>
+                                <a href="<?= $a2 ?>" <?= $light2 ?>>Đang tiến hành</a>
+                            </li>
+                            <li>
+                                <a href="<?= $a3 ?>" <?= $light3 ?> >Hoàn thành</a>
+                            </li>
+                        </ul>
+                        <select>
+                            <option>Thể loại</option>
+                            <?php include VIEW . "main/genre/tags_3.phtml" ?>
+                        </select>
+                    </div>
+                    <div class="manga-actions filter">
+                        <ul>
+                            <li <?= $act_sort_3 ?>><a href="<?= $url_path ?>" title="Ngày cập nhật">Ngày cập nhật</a></li>
+                            <li <?= $act_sort_1 ?>><a href="<?= $url_filter_1 ?>" title="Lượt xem">Lượt xem</a></li>
+                            <li <?= $act_sort_2 ?>><a href="<?= $url_filter_2 ?>" title="Số chapter">Số chapter</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <?php 
+                            include VIEW . "main/manga_list.phtml";
+                        ?>
+                    </div>
+                </div>
+                <div class="col-right">
+                    <div class="box-title">
+                        <h2>Thể loại <i class="fa fa-angle-right"></i></h2>
+                    </div>
+                    <div class="genres-box clearfix">
+                        <?php include VIEW . "main/genre/tags_2.phtml" ?>
+                    </div>
+                </div>
+            </div>
+        </div>  
+    </div>
+<?php
+    include VIEW . "main/footer.phtml";
+?>
+</body>
+</html>
